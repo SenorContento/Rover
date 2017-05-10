@@ -5,7 +5,7 @@ __author__ = 'SenorContento' #Me: Brandon Gomez
 import telepot
 import sqlite3
 
-from ConfigParser import SafeConfigParser
+from configparser import SafeConfigParser
 import codecs
 
 import os
@@ -42,24 +42,15 @@ def telegram(token):
     # Create access to bot
     bot = telepot.Bot(token)
     botInfo = bot.getMe()
-    print "Username: " + botInfo['username'] #Just putting print bot.getMe() will return JSON!
-    print "Name: " + botInfo['first_name']
-    print "Robot's ID: " + str(botInfo['id']) + '\n' #str(Number) because you cannot directly combine int and string in Python!
+    print("Username: " + botInfo['username']) #Just putting print bot.getMe() will return JSON!
+    print("Name: " + botInfo['first_name'])
+    print("Robot's ID: " + str(botInfo['id']) + '\n') #str(Number) because you cannot directly combine int and string in Python!
     #print "Update: " + str(bot.getUpdates(offset=772199643)) #772199642 #772199641
     bot.message_loop(commands.handle)
   except:
-    print u'Cannot access Telegram. Please do /start'
-    print u'Token: ' + token
+    print('Cannot access Telegram. Please do /start')
+    print('Token: ' + token)
     sys.exit(1)
-
-  try: 
-    message = bot.getUpdates()
-    uid = u"%s" % message[0]['message']['from']['id']
-    bot.sendMessage(uid, text=u"Start %s" % (os.path.basename(sys.argv[0])))
-  except:
-    None # I just added the NOP command to keep python happy with the fact there is no code for the exception!
-    # print u"Error accessing Telegram, chances are you now need to send a message, not a command!"
-    # Yeah, this is pointless when the program can now loop!
 
   # Keep the program running.
   while 1:

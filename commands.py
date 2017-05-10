@@ -5,13 +5,15 @@ __author__ = 'SenorContento' #Me: Brandon Gomez
 import telepot
 import sqlite3
 
-from ConfigParser import SafeConfigParser
+from configparser import SafeConfigParser
 import codecs
 
 import os
 import sys
 
 import settings
+
+import json
 
 #Globals
 #################################################################################################
@@ -20,7 +22,7 @@ import settings
 #Functions
 #################################################################################################
 def main():
-  print 'Please do not run this file directly! Instead, run rover.py'
+  print('Please do not run this file directly! Instead, run rover.py')
 
 #################################################################################################
 def initDatabase():
@@ -51,7 +53,9 @@ def handle(message):
   db = sqlite3.connect(settings.DATABASE) #Not :memory:
   db.row_factory = sqlite3.Row
 
-  json = str(message) #This grabs the (pythonified) JSON from the message before we erase it!
+  data = json.loads(json.dumps(message)) #json.dumps converts python string to json string and json.loads parses json string
+  print("JSON: " + str(data))
+
   #message = message['text'] #message['text'].upper()
   #commands = message.split(" ")
 
@@ -62,12 +66,17 @@ def handle(message):
   #  '''), 0, message['date'], message['text'], 
   #db.commit()
 
-  try:
-    print 'Message: ' + message['date']
-  except:
-    print 'Cannot get data'
+  bot = telepot.Bot(settings.TOKEN)
+  uid = data['from']['id']
+  bot.sendMessage(uid, "Hello " + data['from']['username'] + "! Here is your JSON: " + str(data))
+  bot.sendMessage(uid, "Here is your message \"" + data['text'] + "\"!")
 
-  print 'JSON: ' + json
+  try:
+    print('Date: ' + data['date'])
+  except:
+    print('Cannot get data')
+
+  print('Sender: ' + data['from']['username'] + ' - Message: ' + data['text'])
 
 #################################################################################################
 if __name__ == "__main__":

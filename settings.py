@@ -9,7 +9,7 @@ __author__ = 'SenorContento' #Me: Brandon Gomez
 import telepot
 import sqlite3
 
-from ConfigParser import SafeConfigParser
+from configparser import SafeConfigParser
 import codecs
 
 import os
@@ -23,7 +23,7 @@ import sys
 #Functions
 #################################################################################################
 def main():
-  print 'Please do not run this file directly! Instead, run rover.py'
+  print('Please do not run this file directly! Instead, run rover.py')
 
 #################################################################################################
 def init():
