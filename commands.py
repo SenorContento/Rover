@@ -54,7 +54,11 @@ def handle(message):
   db.row_factory = sqlite3.Row
 
   data = json.loads(json.dumps(message)) #json.dumps converts python string to json string and json.loads parses json string
-  print("JSON: " + str(data))
+
+  try:
+    print("JSON: " + str(data))
+  except:
+    print("JSON: " + str(str(data).encode('latin-1', 'replace'))) #I only want the emojis to be replaced with question marks if the computer does not have the packages to support it. The emojis will still show up in Telegram!!!
 
   #message = message['text'] #message['text'].upper()
   #commands = message.split(" ")
@@ -68,15 +72,20 @@ def handle(message):
 
   bot = telepot.Bot(settings.TOKEN)
   uid = data['from']['id']
-  bot.sendMessage(uid, "Hello " + data['from']['username'] + "! Here is your JSON: " + str(data))
-  bot.sendMessage(uid, "Here is your message \"" + data['text'] + "\"!")
 
   try:
-    print('Date: ' + data['date'])
+    bot.sendMessage(uid, "Hello " + data['from']['username'] + "! Here is your JSON: " + str(data))
+    bot.sendMessage(uid, "Here is your message \"" + data['text'] + "\"!")
+  except:
+    bot.sendMessage(uid, "Hello " + data['from']['username'] + "! Here is your JSON: " + str(str(data).encode('latin-1', 'replace')))
+    bot.sendMessage(uid, "Here is your message \"" + str(data['text'].encode('latin-1', 'replace')) + "\"!") #Same as with JSON!!!
+
+  try:
+    print('Date: ' + str(data['date']))
   except:
     print('Cannot get data')
 
-  print('Sender: ' + data['from']['username'] + ' - Message: ' + data['text'])
+  print('Sender: ' + data['from']['username'] + ' - Message: ' + data['text'] + '\n')
 
 #################################################################################################
 if __name__ == "__main__":

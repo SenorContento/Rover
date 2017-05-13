@@ -16,6 +16,8 @@ import time
 import commands
 import settings
 
+import telepot.loop
+
 #Globals
 #################################################################################################
 #################################################################################################
@@ -41,16 +43,21 @@ def telegram(token):
   try:
     # Create access to bot
     bot = telepot.Bot(token)
+    bot.setWebhook() # Should disable any webhook you have!
     botInfo = bot.getMe()
     print("Username: " + botInfo['username']) #Just putting print bot.getMe() will return JSON!
     print("Name: " + botInfo['first_name'])
     print("Robot's ID: " + str(botInfo['id']) + '\n') #str(Number) because you cannot directly combine int and string in Python!
-    #print "Update: " + str(bot.getUpdates(offset=772199643)) #772199642 #772199641
-    bot.message_loop(commands.handle)
+    #print("Update: " + str(bot.getUpdates(offset=772199643))) #772199642 #772199641
+    #bot.message_loop(commands.handle) # How do I switch over to telepot.loop.MessageLoop(bot, handler)? It keeps denying existance!
+    telepot.loop.MessageLoop(bot, commands.handle).run_as_thread() #run_forever()? # I chose run_as_thread() because I am still in the stage of using Ctrl+C to end the program! It may take some time before I can get it to be like a service!
+  except telepot.exception.TelepotException as e: #Why can I not catch this exception? Is it because I am using message_loop instead of handling the calling myself?
+    print('Telegram Error! "%d: %s"' % (e.error_code, e.description))
   except:
-    print('Cannot access Telegram. Please do /start')
-    print('Token: ' + token)
-    sys.exit(1)
+    exClass = sys.exc_info()[0]
+    exDesc = sys.exc_info()[1]
+    print('"%s: %s"' % (exClass, exDesc))
+
 
   # Keep the program running.
   while 1:
