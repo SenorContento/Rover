@@ -57,11 +57,35 @@ def handle(message):
 
   try:
     print("JSON: " + str(data))
-  except:
+  except UnicodeEncodeError:
     print("JSON: " + str(str(data).encode('latin-1', 'replace'))) #I only want the emojis to be replaced with question marks if the computer does not have the packages to support it. The emojis will still show up in Telegram!!!
 
-  #message = message['text'] #message['text'].upper()
-  #commands = message.split(" ")
+  bot = telepot.Bot(settings.TOKEN)
+  uid = data['from']['id']
+
+  try:
+    bot.sendMessage(uid, "Hello " + data['from']['username'] + "! Here is your JSON: " + str(data)) #Sending back JSON, has errors with certain emojis \U0001f3db
+    bot.sendMessage(uid, "Here is your message \"" + data['text'] + "\"!")
+  except UnicodeEncodeError:
+    bot.sendMessage(uid, "Hello " + data['from']['username'] + "! Here is your JSON: " + str(str(data).encode('latin-1', 'replace')))
+    bot.sendMessage(uid, "Here is your message \"" + str(data['text'].encode('latin-1', 'replace')) + "\"!") #Same as with JSON!!!
+
+  try:
+    print('Date: ' + str(data['date']))
+  except KeyError as e:
+    print('Commands.py/Date - KeyError: ' + e)
+
+  try:
+    print('Sender: ' + data['from']['username'] + ' - Message: ' + data['text'])
+  except UnicodeEncodeError:
+    print('Sender: ' + data['from']['username'] + ' - Message: ' + str(data['text'].encode('latin-1', 'replace')))
+
+  text = message['text'] #message['text'].upper()
+  if text[0] == "/":
+    command = text.split(" ")
+    execute(command, uid)
+
+  print() #Puts a newline!!!
 
   # Allows me to record messages for future reference!!!
   #cursor = db.cursor()
@@ -70,22 +94,12 @@ def handle(message):
   #  '''), 0, message['date'], message['text'], 
   #db.commit()
 
+#################################################################################################
+def execute(command, uid):
   bot = telepot.Bot(settings.TOKEN)
-  uid = data['from']['id']
-
-  try:
-    bot.sendMessage(uid, "Hello " + data['from']['username'] + "! Here is your JSON: " + str(data))
-    bot.sendMessage(uid, "Here is your message \"" + data['text'] + "\"!")
-  except:
-    bot.sendMessage(uid, "Hello " + data['from']['username'] + "! Here is your JSON: " + str(str(data).encode('latin-1', 'replace')))
-    bot.sendMessage(uid, "Here is your message \"" + str(data['text'].encode('latin-1', 'replace')) + "\"!") #Same as with JSON!!!
-
-  try:
-    print('Date: ' + str(data['date']))
-  except:
-    print('Cannot get data')
-
-  print('Sender: ' + data['from']['username'] + ' - Message: ' + data['text'] + '\n')
+  if command[0][1:].lower() == "guess":
+    bot.sendMessage(uid, "Guessing Game!!!")
+    print("Guessing Game!!!")
 
 #################################################################################################
 if __name__ == "__main__":
