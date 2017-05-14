@@ -14,6 +14,9 @@ import sys
 import settings
 
 import json
+import pyotp
+
+import time
 
 #Globals
 #################################################################################################
@@ -64,7 +67,7 @@ def handle(message):
   uid = data['from']['id']
 
   try:
-    bot.sendMessage(uid, "Hello " + data['from']['username'] + "! Here is your JSON: " + str(data)) #Sending back JSON, has errors with certain emojis \U0001f3db
+    bot.sendMessage(uid, "Hello " + data['from']['username'] + "! Here is your JSON: " + str(data))
     bot.sendMessage(uid, "Here is your message \"" + data['text'] + "\"!")
   except UnicodeEncodeError:
     bot.sendMessage(uid, "Hello " + data['from']['username'] + "! Here is your JSON: " + str(str(data).encode('latin-1', 'replace')))
@@ -97,9 +100,31 @@ def handle(message):
 #################################################################################################
 def execute(command, uid):
   bot = telepot.Bot(settings.TOKEN)
+  if command[0][1:].lower() == "debug":
+    None # Turn on and off support for spitting out JSON and message!
+
   if command[0][1:].lower() == "guess":
     bot.sendMessage(uid, "Guessing Game!!!")
     print("Guessing Game!!!")
+
+  if command[0][1:].lower() == "otp":
+    if len(command) < 2: #if not command[1][1:]: # Checks if argument 2 is empty (or falsy)
+      base32 = pyotp.random_base32()
+    else:
+      base32 = command[1] # Probably not secure, should evaluate variable first
+
+    totp = pyotp.TOTP(base32)
+
+    print("Provisioning URL: " + totp.provisioning_uri("debug@rover.me")) # Just for messing around with OTP
+    bot.sendMessage(uid, "Provisioning URL: " + totp.provisioning_uri("debug@rover.me"))
+
+    print("Current Base32: ", base32) # Obviously debugging
+    print("Current OTP: ", totp.now()) # Same
+    bot.sendMessage(uid, "Current Base32: " + base32)
+    bot.sendMessage(uid, "Current OTP: " + totp.now())
+
+    # OTP verified for current time
+    print("True OTP: " + str(totp.verify(totp.now()))) # => True
 
 #################################################################################################
 if __name__ == "__main__":
