@@ -6,14 +6,13 @@ __author__ = 'SenorContento' #Me: Brandon Gomez
 
 #Imports
 #################################################################################################
-import telepot
-import sqlite3
-
 from configparser import SafeConfigParser
 import codecs
 
 import os
 import sys
+
+import pyotp
 
 #Globals
 #################################################################################################
@@ -31,9 +30,12 @@ def init():
   global SETTINGSFILE
   global DATABASE
   global TOKEN
+  global DEBUG
+  global ADMIN
+  global PASSWORD
 
   # Set Config File
-  SETTINGSFILE = 'rover.ini'
+  SETTINGSFILE = 'rover.ini' # Maybe allow the command line to override this?
 
   # Read Config File
   parser = SafeConfigParser()
@@ -42,8 +44,41 @@ def init():
   with codecs.open(os.path.join(os.path.dirname(os.path.abspath(__file__)), SETTINGSFILE), 'r', encoding='utf-8') as f:
     parser.readfp(f)
 
-  DATABASE = parser.get('Database', 'File')
-  TOKEN = parser.get('Telegram', 'token')
+  # Ensures Debug is a boolean
+  try:
+    DEBUG = parser.get('Admin', 'debug')
+
+    if(DEBUG.lower() == "false"):
+      DEBUG = False
+    elif(DEBUG.lower() == "true"):
+      DEBUG = True
+    else: # Incase of malformed value
+      DEBUG = True
+  except: # Should I do KeyError or NoOptionError?
+    DEBUG = False
+
+  try:
+    DATABASE = parser.get('Database', 'File')
+  except:
+    DATABASE = "rover.sqlite"
+
+  try:
+    TOKEN = parser.get('Telegram', 'token')
+  except:
+    print("You need a token to communicate with Telegram!!! Talk to @BotFather on Telegram!!!")
+    sys.exit(1) # Eventually when I add more ways to communicate with Rover, then this won't be a hard requirement
+
+  try:
+    ADMIN = parser.get('Admin', 'otp')
+  except:
+    ADMIN = pyotp.random_base32()
+    print("Your temporary OTP Key is: " + ADMIN)
+
+  try:
+    PASSWORD = parser.get('Admin', 'pw')
+  except:
+    PASSWORD = pyotp.random_base32() # Because I currently do not want to invest time in a password generator. Maybe later!
+    print("Your temporary password is: " + PASSWORD)
 
 #################################################################################################
 def retrieveGlobal(variable, value): # If I can figure out how to use dynamic globals, this can make the concept of globals more flexible for me!
