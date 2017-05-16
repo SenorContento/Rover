@@ -33,6 +33,7 @@ def init():
   global DEBUG
   global ADMIN
   global PASSWORD
+  global OTPNAME # This is an example of why I need dynamic variables! If I turn the commands into modules, they need to be able to work without modifying this file!
 
   # Set Config File
   SETTINGSFILE = 'rover.ini' # Maybe allow the command line to override this?
@@ -79,6 +80,11 @@ def init():
   except:
     PASSWORD = pyotp.random_base32() # Because I currently do not want to invest time in a password generator. Maybe later!
     print("Your temporary password is: " + PASSWORD)
+
+  try: # This name is used in generating the OTP URL for any authentication apps!!!
+    OTPNAME = parser.get('OTP', 'name')
+  except:
+    OTPNAME = "Rover"
 
 #################################################################################################
 def retrieveGlobal(variable, value): # If I can figure out how to use dynamic globals, this can make the concept of globals more flexible for me!
