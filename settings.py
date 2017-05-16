@@ -13,6 +13,8 @@ import os
 import sys
 
 import pyotp
+import base64
+import random
 
 #Globals
 #################################################################################################
@@ -80,6 +82,16 @@ def init():
   except:
     PASSWORD = pyotp.random_base32() # Because I currently do not want to invest time in a password generator. Maybe later!
     print("Your temporary password is: " + PASSWORD)
+
+  #random_bytes = os.urandom(16)
+  #token = base64.b64encode(random_bytes).decode('utf-8')
+  #print("RANDOM: " + str(random_bytes))
+
+  try:
+    PIN = parser.get('Admin', 'pin')
+  except:
+    PIN = random.randint(1000, 999999) # Because I currently do not want to invest time in a password generator. Maybe later!
+    print("Your temporary pin is: " + str(PIN))
 
   try: # This name is used in generating the OTP URL for any authentication apps!!!
     OTPNAME = parser.get('OTP', 'name')

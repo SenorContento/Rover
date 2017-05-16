@@ -34,5 +34,9 @@ def pw(password): # Password
   return password == settings.PASSWORD
 
 #################################################################################################
+def pin(pin): # Pin - Will be used in PBX if I can get that working
+  return pin == settings.PIN
+
+#################################################################################################
 if __name__ == "__main__":
   main()

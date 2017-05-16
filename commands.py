@@ -102,6 +102,7 @@ def handle(message):
   # I am also considering linking the robot to external programs so I can use my Google Voice number with PBX software (as for real, who as a developer wouldn't want to control their robot or computer over the phone)
   # I may split the commands into modules once I get the qrcode thing working so I can just enable and disable modules at will (and it will make developing modules more intuitive)
   # Also, I need to be able to inform users if they are missing certain packages and how to find out/install the packages
+  # Maybe I will implement Hotbits (and Random.org) support for truly random numbers produced by radioactivity (and mostly random by atmospheric noise from Random.org)
   ###TODO TODO TODO
 
   data = json.loads(json.dumps(message)) #json.dumps converts python string to json string and json.loads parses json string
