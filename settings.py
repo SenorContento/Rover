@@ -21,6 +21,21 @@ import random
 # I don't believe I need these lines!!!
 #################################################################################################
 
+variables = {} # This is a dictionary! It can be used to create dynamic variables!
+
+#ConfigParser
+#################################################################################################
+# Set Config File
+SETTINGSFILE = 'rover.ini' # Maybe allow the command line (or function) to override this?
+
+# Read Config File
+parser = SafeConfigParser()
+
+# Open the file with the correct encoding
+with codecs.open(os.path.join(os.path.dirname(os.path.abspath(__file__)), SETTINGSFILE), 'r', encoding='utf-8') as f:
+  parser.readfp(f)
+#################################################################################################
+
 #Functions
 #################################################################################################
 def main():
@@ -28,29 +43,10 @@ def main():
 
 #################################################################################################
 def init():
-  # The globals work only if you define them as global within the function itself!
-  global SETTINGSFILE
-  global DATABASE
-  global TOKEN
-  global DEBUG
-  global ADMIN
-  global PASSWORD
-  global OTPNAME # This is an example of why I need dynamic variables! If I turn the commands into modules, they need to be able to work without modifying this file!
-
-  # Set Config File
-  SETTINGSFILE = 'rover.ini' # Maybe allow the command line to override this?
-
-  # Read Config File
-  parser = SafeConfigParser()
-
-  # Open the file with the correct encoding
-  with codecs.open(os.path.join(os.path.dirname(os.path.abspath(__file__)), SETTINGSFILE), 'r', encoding='utf-8') as f:
-    parser.readfp(f)
-
   # Ensures Debug is a boolean
   try:
+    #retrieveVariable("debug") # Not part of this code, just here for reference!
     DEBUG = parser.get('Admin', 'debug')
-
     if(DEBUG.lower() == "false"):
       DEBUG = False
     elif(DEBUG.lower() == "true"):
@@ -59,56 +55,28 @@ def init():
       DEBUG = True
   except: # Should I do KeyError or NoOptionError?
     DEBUG = False
-
-  try:
-    DATABASE = parser.get('Database', 'File')
-  except:
-    DATABASE = "rover.sqlite"
-
-  try:
-    TOKEN = parser.get('Telegram', 'token')
-  except:
-    print("You need a token to communicate with Telegram!!! Talk to @BotFather on Telegram!!!")
-    sys.exit(1) # Eventually when I add more ways to communicate with Rover, then this won't be a hard requirement
-
-  try:
-    ADMIN = parser.get('Admin', 'otp')
-  except:
-    ADMIN = pyotp.random_base32()
-    print("Your temporary OTP Key is: " + ADMIN)
-
-  try:
-    PASSWORD = parser.get('Admin', 'pw')
-  except:
-    PASSWORD = pyotp.random_base32() # Because I currently do not want to invest time in a password generator. Maybe later!
-    print("Your temporary password is: " + PASSWORD)
-
-  #random_bytes = os.urandom(16)
-  #token = base64.b64encode(random_bytes).decode('utf-8')
-  #print("RANDOM: " + str(random_bytes))
-
-  try:
-    PIN = parser.get('Admin', 'pin')
-  except:
-    PIN = random.randint(1000, 999999) # Because I currently do not want to invest time in a password generator. Maybe later!
-    print("Your temporary pin is: " + str(PIN))
-
-  try: # This name is used in generating the OTP URL for any authentication apps!!!
-    OTPNAME = parser.get('OTP', 'name')
-  except:
-    OTPNAME = "Rover"
+  setVariable("debug", DEBUG)
 
 #################################################################################################
-def retrieveGlobal(variable, value): # If I can figure out how to use dynamic globals, this can make the concept of globals more flexible for me!
-  None
+def readConfig(section, key):
+  return parser.get(section, key)
 
 #################################################################################################
-def setGlobal(variable): # If I can figure out how to use dynamic globals, this can make the concept of globals more flexible for me!
-  None
+def writeConfig(section, key, value):
+  None # This is currently not implemented!
 
 #################################################################################################
-def deleteGlobal(variable): # If I can figure out how to use dynamic globals, this can make the concept of globals more flexible for me!
-  None
+def retrieveVariable(variable):
+  return variables[variable]
+
+#################################################################################################
+def setVariable(variable, value):
+  variables[variable] = value
+  return variables[variable]
+
+#################################################################################################
+def deleteVariable(variable):
+  del variables[variable]
 
 #################################################################################################
 if __name__ == "__main__":
