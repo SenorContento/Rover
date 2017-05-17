@@ -34,7 +34,7 @@ def init():
     hash256 = SHA256.new() # Creates new hashing algorithm object
     password = settings.setVariable("pw", pyotp.random_base32()) # Because I currently do not want to invest time in a password generator. Maybe later!
     hash256.update(password.encode('utf-8')) # Supplies text to hash
-    HASH = hash256.digest() # Generates hash
+    HASH = hash256.hexdigest() # Generates hash
     print("Your temporary password is: " + password)
     print("Your temporary password's hash is: " + HASH)
 
