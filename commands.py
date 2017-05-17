@@ -199,13 +199,13 @@ def execute(command, uid):
           base32 = pyotp.random_base32()
           totp = pyotp.TOTP(base32)
 
-          try:
-            imgTwo = open("image.png", 'rb') # So this works when combined with bot.sendPhoto(uid, imgTwo) # 'rb' means read + binary
+          #try: # This is no longer necessary, I will remove this when I get the qr code working, if not sooner!
+            #imgTwo = open("image.png", 'rb') # So this works when combined with bot.sendPhoto(uid, imgTwo) # 'rb' means read + binary
             #imgTwo = Image.open(output) # This does not work
             #imgTwo.save("imgTwo.png", format="PNG") # So the qr code generates and saves just fine
             #print("Name: " + imgTwo.name)
-          except:
-            print_exc()
+          #except:
+            #print_exc()
 
           try:
             img = qrcode.make(totp.provisioning_uri(settings.OTPNAME)) # This creates the raw image (of the qr code)
