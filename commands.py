@@ -211,7 +211,7 @@ def execute(command, uid):
             img = qrcode.make(totp.provisioning_uri(settings.OTPNAME)) # This creates the raw image (of the qr code)
             output = BytesIO() # This is a "file" written into memory
             img.save(output, format="PNG") # This is saving the raw image (of the qr code) into the "file" in memory
-
+            output.seek(0) # Yeah, for real, this never occurred to me until it was pointed out to me on https://stackoverflow.com/questions/44012293/how-would-i-upload-a-bytesio-image-to-telegram-through-telepot-bot-sendphotouid # Going to the beginning of the file is required in order to have a photo to send to Telegram!
             bot.sendPhoto(uid, ('hello.png', output)) # This is sending the image file (in memory) to telegram!
           except:
             print_exc()
@@ -227,7 +227,7 @@ def execute(command, uid):
         img = qrcode.make(totp.provisioning_uri(settings.OTPNAME))
         output = BytesIO()
         img.save(output, format="PNG")
-
+        output.seek(0) # Going to the beginning of the file is required in order to have a photo to send to Telegram!
         bot.sendPhoto(uid, output) # Allows sending photo of qr code back to user
         output.close()
 
