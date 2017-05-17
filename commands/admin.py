@@ -35,7 +35,7 @@ def init():
     OTP = settings.setVariable("otp", pyotp.random_base32())
     print("Your temporary OTP Key is: " + OTP)
 
-  print("Admin: %s!" % execute("/admin 000000"))
+  #print("Admin: %s!" % execute("/admin 000000"))
 
 #################################################################################################
 def execute(command):

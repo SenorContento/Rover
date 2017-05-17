@@ -19,15 +19,24 @@ try:
 except ImportError:
   print("ImportError! Cannot import settings (This is a Rover library)!")
 
+try:
+  from Crypto.Hash import SHA256
+except ImportError:
+  print("ImportError! Cannot import SHA256 from Crypto.Hash! The package is pycrypto!")
+
 #################################################################################################
 def init():
-  global PASSWORD
+  global HASH
 
   try:
-    PASSWORD = settings.setVariable("pw", settings.readConfig('Admin', 'pw'))
+    HASH = settings.setVariable("pw", settings.readConfig('Admin', 'pw'))
   except:
-    PASSWORD = settings.setVariable("pw", pyotp.random_base32()) # Because I currently do not want to invest time in a password generator. Maybe later!
-    print("Your temporary password is: " + PASSWORD)
+    hash256 = SHA256.new() # Creates new hashing algorithm object
+    password = settings.setVariable("pw", pyotp.random_base32()) # Because I currently do not want to invest time in a password generator. Maybe later!
+    hash256.update(password.encode('utf-8')) # Supplies text to hash
+    HASH = hash256.digest() # Generates hash
+    print("Your temporary password is: " + password)
+    print("Your temporary password's hash is: " + HASH)
 
 #################################################################################################
 def execute(command):
@@ -42,9 +51,10 @@ def execute(command):
 
 #################################################################################################
 def pw(password): # Password
-  # Add support for hashing here!
+  hash256 = SHA256.new() # Creates new hashing algorithm object
+  hash256.update(password.encode('utf-8')) # Supplies text to hash - I encode the password to utf-8 because giving an encoding is required!
 
-  return password == PASSWORD
+  return hash256.hexdigest() == HASH
 
 #################################################################################################
 if __name__ == "__main__":

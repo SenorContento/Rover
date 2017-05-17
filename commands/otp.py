@@ -42,7 +42,7 @@ def init():
     OTPNAME = settings.setVariable("otpname", settings.readConfig('OTP', 'name'))
   except:
     OTPNAME = settings.setVariable("otpname", "Rover")
-  print("Execute: %s!" % execute("/otp qrcode"))
+  #print("Execute: %s!" % execute("/otp qrcode"))
 
 #################################################################################################
 def execute(command):
