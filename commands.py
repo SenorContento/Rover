@@ -22,7 +22,7 @@ import time
 from traceback import print_exc
 
 import qrcode
-from io import StringIO, BytesIO
+from io import StringIO, BytesIO, BufferedReader
 
 from PIL import Image
 
@@ -42,10 +42,10 @@ def initDatabase():
     global debug
     debug = settings.DEBUG
     if debug:
-      print("DEBUG: true - Value: " + str(debug))
+      None #print("DEBUG: true - Value: " + str(debug))
     else:
-      print("DEBUG: false - Value: " + str(debug))
-    print() # For Newline
+      None #print("DEBUG: false - Value: " + str(debug))
+    #print() # For Newline
   except:
     print("Cannot Test Debugger!!!")
     print_exc() # Prints Stacktrace
@@ -80,8 +80,6 @@ def initDatabase():
 #################################################################################################
 def handle(message):
   flavor = telepot.flavor(message) # TODO: Do something with this when you add support for more than just plain text messages!!!
-  if debug:
-    print("Message Flavor: " + str(flavor))
 
   # http://pythoncentral.io/introduction-to-sqlite-in-python/
   db = sqlite3.connect(settings.DATABASE) #Not :memory:
@@ -106,14 +104,21 @@ def handle(message):
   ###TODO TODO TODO
 
   data = json.loads(json.dumps(message)) #json.dumps converts python string to json string and json.loads parses json string
-  uid = data['from']['id']
-  text = message['text'] #message['text'].upper()
-  if text[0] == "/": # Should I allow a command anywhere in the message, or force it to be the first thing written in the message!!!
-    command = text.split(" ")
-    execute(command, uid)
+  uid = data['chat']['id']
+
+  try:
+    text = message['text'] #message['text'].upper()
+
+    if text[0] == "/": # Should I allow a command anywhere in the message, or force it to be the first thing written in the message!!!
+      command = text.split(" ")
+      execute(command, uid)
+  except: # Maybe check the message flavor first!!!
+    None
 
   ## START DEBUG
   if debug:
+    print("Message Flavor: " + str(flavor)) #chat, callback_query, inline_query, chosen_inline_result
+
     try:
       print("JSON: " + str(data))
     except UnicodeEncodeError:
@@ -122,10 +127,20 @@ def handle(message):
     bot = telepot.Bot(settings.TOKEN)
     try:
       bot.sendMessage(uid, "Hello " + data['from']['username'] + "! Here is your JSON: " + str(data))
-      bot.sendMessage(uid, "Here is your message \"" + data['text'] + "\"!")
     except UnicodeEncodeError:
       bot.sendMessage(uid, "Hello " + data['from']['username'] + "! Here is your JSON: " + str(str(data).encode('latin-1', 'replace')))
+    except KeyError:
+      #bot.sendMessage(uid, "Hello, it appears you have a KeyError! It most likely means Rover is on a Channel and cannot find out who sent the message!")
+      print("Hello, it appears you have a KeyError! It most likely means Rover is on a Channel and cannot find out who sent the message!")
+      bot.sendMessage(uid, "Hello " + data['chat']['title'] + "! Here is your JSON: " + str(str(data).encode('latin-1', 'replace')))
+
+    try:
+      bot.sendMessage(uid, "Here is your message \"" + data['text'] + "\"!")
+    except UnicodeEncodeError:
       bot.sendMessage(uid, "Here is your message \"" + str(data['text'].encode('latin-1', 'replace')) + "\"!") #Same as with JSON!!!
+    except KeyError:
+      #bot.sendMessage(uid, "I am sorry, I cannot seem to grab the text, seems to be a KeyError!") #Same as with JSON!!!
+      None
 
     try:
       print('Date: ' + str(data['date']))
@@ -136,6 +151,8 @@ def handle(message):
       print('Sender: ' + data['from']['username'] + ' - Message: ' + data['text'])
     except UnicodeEncodeError:
       print('Sender: ' + data['from']['username'] + ' - Message: ' + str(data['text'].encode('latin-1', 'replace')))
+    except KeyError:
+      print("A key is missing for Sender/Message! Most likely it is a message without text!!!")
 
     print() #Puts a newline!!!
   ## END DEBUG
@@ -153,17 +170,17 @@ def execute(command, uid):
       if len(command) < 3:
         if security.otp(command[1]):
           debug = not debug # Both "= not debug" and "~debug" result in inverting variables. Tilde converts it to -1 and 0 instead of false and true!
-          bot.sendMessage(uid, "The debugger has been set to " + str(debug) + "!")
+          bot.sendMessage(uid, "The debugger has been set to " + str(debug).lower() + "!")
         else:
           bot.sendMessage(uid, "Wrong OTP Code!")
       else:
         if security.otp(command[1]):
           if command[2].lower() == "true":
             debug = True
-            bot.sendMessage(uid, "The debugger has been set to " + str(debug) + "!")
+            bot.sendMessage(uid, "The debugger has been set to " + str(debug).lower() + "!")
           if command[2].lower() == "false":
             debug = False
-            bot.sendMessage(uid, "The debugger has been set to " + str(debug) + "!")
+            bot.sendMessage(uid, "The debugger has been set to " + str(debug).lower() + "!")
         else:
           bot.sendMessage(uid, "Wrong OTP Code!")
 
@@ -181,15 +198,24 @@ def execute(command, uid):
         if command[1].lower() == "qrcode":
           base32 = pyotp.random_base32()
           totp = pyotp.TOTP(base32)
-          img = qrcode.make(totp.provisioning_uri(settings.OTPNAME))
-          output = BytesIO()
-          img.save(output, format="PNG")
 
-          #imgTwo = Image.open(output)
-          #imgTwo.save("imgTwo.png", format="PNG") # So the qr code generates and saves just fine
+          try:
+            imgTwo = open("image.png", 'rb') # So this works when combined with bot.sendPhoto(uid, imgTwo) # 'rb' means read + binary
+            #imgTwo = Image.open(output) # This does not work
+            #imgTwo.save("imgTwo.png", format="PNG") # So the qr code generates and saves just fine
+            #print("Name: " + imgTwo.name)
+          except:
+            print_exc()
 
-          print("IMAGE: " + str(output)) # However, I cannot seem to get it to send the code back without some kind of error!
-          bot.sendPhoto(uid, Image.frombytes('RGB',(400,400),output)) # Allows sending photo of qr code back to user
+          try:
+            img = qrcode.make(totp.provisioning_uri(settings.OTPNAME)) # This creates the raw image (of the qr code)
+            output = BytesIO() # This is a "file" written into memory
+            img.save(output, format="PNG") # This is saving the raw image (of the qr code) into the "file" in memory
+
+            bot.sendPhoto(uid, ('hello.png', output)) # This is sending the image file (in memory) to telegram!
+          except:
+            print_exc()
+
           output.close()
         else:
           base32 = command[1] # TODO: Probably not secure, should evaluate variable first
