@@ -12,4 +12,8 @@
 # Add support for Rebrandly API
 # Make a /sudo command so I can have Rover remember my uid (not cid) so I don't have to OTP every time I execute a command!
 # Add a /kill (or /exit) command incase I need to shutoff my robot!
+# Read RSS feeds
+# Ping Speed Test
+# Automatic Bot Creator (Via Chat APIs)
+# TODO: Register commands via dictionary and support wildcard commands
 ###TODO TODO TODO

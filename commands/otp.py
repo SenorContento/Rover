@@ -86,6 +86,9 @@ def execute(command):
     if debug:
       print("Provisioning URL: " + totp.provisioning_uri(OTPNAME)) # Just for messing around with OTP
     bot.sendMessage(uid, "Provisioning URL: " + totp.provisioning_uri(OTPNAME))
+    # Need to figure out otpauth://totp/Rover:Rover?secret=SECRET&issuer=Rover&algorithm=SHA1&digits=6&period=30
+    # It currently produces otpauth://totp/Rover?secret=SECRET
+    # Also maybe add support for a counter!
 
     if debug:
       print("Current Base32: ", base32) # Obviously debugging
