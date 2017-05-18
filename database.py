@@ -1,11 +1,26 @@
-import sqlite3
+__author__ = 'SenorContento' #Me: Brandon Gomez
+__named__ = 'the database'
+__purpose__ = 'save data for Rover'
 
-# http://pythoncentral.io/introduction-to-sqlite-in-python/
+#Imports
+#################################################################################################
+try:
+  import sqlite3
+except ImportError:
+  print("ImportError! Cannot import sqlite3!")
 
-  try:
-    DATABASE = parser.get('Database', 'File')
+#Database
+#################################################################################################
+try:
+    DATABASE = settings.setVariable("sql", settings.readConfig('Database', 'file'))
   except:
     DATABASE = "rover.sqlite"
+
+#Functions
+#################################################################################################
+def initDatabase():
+  # http://pythoncentral.io/introduction-to-sqlite-in-python/
+  
 
   db = sqlite3.connect(DATABASE) #Not :memory:
   db.row_factory = sqlite3.Row
@@ -39,3 +54,7 @@ import sqlite3
   #db.commit()
 
   db.close()
+
+#################################################################################################
+if __name__ == "__main__":
+  print("Please don't run me directly! I am %s!\nMy purpose is to %s!" % (__named__, __purpose__))

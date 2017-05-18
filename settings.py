@@ -1,46 +1,44 @@
 __author__ = 'SenorContento' #Me: Brandon Gomez
-
-# When I wrote the program, I screwed up the concept of global variables (go figure by taking on python for the first time).
-# So, I created this file as the solution
-# https://stackoverflow.com/questions/13034496/using-global-variables-between-files
+__named__ = 'the settings file'
+__purpose__ = 'handle variables for different modules load for Rover'
 
 #Imports
 #################################################################################################
-from configparser import SafeConfigParser
-import codecs
+try:
+  from configparser import SafeConfigParser
+except ImportError:
+  print("ImportError! Cannot import SafeConfigParser from configparser!")
 
-import os
-import sys
+try:
+  import codecs
+except ImportError:
+  print("ImportError! Cannot import codecs!")
 
-import pyotp
-import base64
-import random
+try:
+  import os
+except ImportError:
+  print("ImportError! Cannot import os!")
 
-#Globals
+#Dictionaries
 #################################################################################################
-# I don't believe I need these lines!!!
-#################################################################################################
-
 variables = {} # This is a dictionary! It can be used to create dynamic variables!
 
-#ConfigParser
+#ConfigParser - Just a note to future self, I stuck this here instead of init() because a lot of variables would not be accessible to the modules! 
 #################################################################################################
 # Set Config File
 SETTINGSFILE = 'rover.ini' # Maybe allow the command line (or function) to override this?
 
-# Read Config File
+# Objectify Config File
 parser = SafeConfigParser()
 
 # Open the file with the correct encoding
-with codecs.open(os.path.join(os.path.dirname(os.path.abspath(__file__)), SETTINGSFILE), 'r', encoding='utf-8') as f:
-  parser.readfp(f)
-#################################################################################################
+try:
+  with codecs.open(os.path.join(os.path.dirname(os.path.abspath(__file__)), SETTINGSFILE), 'r', encoding='utf-8') as f:
+    parser.readfp(f)
+except:
+  print("Cannot open file %s!\n" % SETTINGSFILE)
 
 #Functions
-#################################################################################################
-def main():
-  print('Please do not run this file directly! Instead, run rover.py')
-
 #################################################################################################
 def init():
   # Ensures Debug is a boolean
@@ -80,4 +78,4 @@ def deleteVariable(variable):
 
 #################################################################################################
 if __name__ == "__main__":
-  main()
+  print("Please don't run me directly! I am %s!\nMy purpose is to %s!" % (__named__, __purpose__))

@@ -1,5 +1,6 @@
 __author__ = 'SenorContento' #Me: Brandon Gomez
-__purpose__ = 'This is a test program designed to load modules for Rover!'
+__named__ = 'the module loader'
+__purpose__ = 'load modules for Rover'
 
 #Imports
 #################################################################################################
@@ -18,6 +19,7 @@ try:
 except ImportError:
   print("ImportError! Cannot import settings (This is a Rover library)!")
 
+#Functions
 #################################################################################################
 def load(filepath):
     name,extension = os.path.splitext(os.path.split(filepath)[-1])
@@ -53,6 +55,5 @@ def loadfolder(folder):
 
 #################################################################################################
 if __name__ == "__main__":
-  settings.init()
-  loadfolder("commands")
+  print("Please don't run me directly! I am %s!\nMy purpose is to %s!" % (__named__, __purpose__))
 

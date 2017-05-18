@@ -24,6 +24,8 @@ try:
 except ImportError:
   print("ImportError! Cannot import SHA256 from Crypto.Hash! The package is pycrypto!")
 
+import random
+
 #################################################################################################
 def init():
   global HASH

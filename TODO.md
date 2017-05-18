@@ -16,4 +16,5 @@
 # Ping Speed Test
 # Automatic Bot Creator (Via Chat APIs)
 # TODO: Register commands via dictionary and support wildcard commands
+# Maybe eventually support timing of commands and modules to test for inefficiencies
 ###TODO TODO TODO
