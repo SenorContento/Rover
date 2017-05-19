@@ -1,8 +1,42 @@
-import telepot
-import telepot.loop
+__author__ = 'SenorContento' #Me: Brandon Gomez
+__module__ = 'telegram'
+__purpose__ = 'communicate with the Telegram server'
+
+#Imports
+#################################################################################################
+try:
+  import telepot
+except ImportError:
+  print("ImportError! Cannot import telepot!")
+
+try:
+  import telepot.loop
+except ImportError:
+  print("ImportError! Cannot import telepot.loop!")
+
+try:
+  import asyncio
+except ImportError:
+  print("ImportError! Cannot import asyncio!")
+
+# I seem to have some trouble importing the async part of telepot. The synchronous part works just fine!
+try:
+  import telepot.aio
+except ImportError:
+  print("ImportError! Cannot import telepot.aio!")
+
+try:
+  import telepot.aio.loop
+except ImportError:
+  print("ImportError! Cannot import telepot.aio.loop!")
+
+#Functions
+#################################################################################################
+def init():
+  None
 
 #################################################################################################
-def telegram(token):
+def telegram(token): # I haven't even messed with this yet, I am just trying to get the async imports working!
   global bot
   global uid
 
@@ -34,3 +68,7 @@ def telegram(token):
     exClass = sys.exc_info()[0]
     exDesc = sys.exc_info()[1]
     print('"%s: %s"' % (exClass, exDesc))
+
+#################################################################################################
+if __name__ == "__main__":
+  print("Please don't run me directly! I am module %s!\nMy purpose is to %s!" % (__module__, __purpose__))

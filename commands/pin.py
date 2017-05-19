@@ -15,6 +15,11 @@ except ImportError:
   print("ImportError! Cannot import sys!")
 
 try:
+  import random
+except ImportError:
+  print("ImportError! Cannot import random!")
+
+try:
   import settings
 except ImportError:
   print("ImportError! Cannot import settings (This is a Rover library)!")
@@ -23,8 +28,6 @@ try:
   from Crypto.Hash import SHA256
 except ImportError:
   print("ImportError! Cannot import SHA256 from Crypto.Hash! The package is pycrypto!")
-
-import random
 
 #################################################################################################
 def init():
