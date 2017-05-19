@@ -33,7 +33,7 @@ def init():
     OTP = settings.setVariable("otp", settings.readConfig('Admin', 'otp'))
   except:
     OTP = settings.setVariable("otp", pyotp.random_base32())
-    print("Your temporary OTP Key is: " + OTP)
+    print("Your temporary OTP Key (for the %s module) is: %s" % (__module__, OTP))
 
   #print("Admin: %s!" % execute("/admin 000000"))
 

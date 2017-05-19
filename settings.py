@@ -44,7 +44,7 @@ def init():
   # Ensures Debug is a boolean
   try:
     #retrieveVariable("debug") # Not part of this code, just here for reference!
-    DEBUG = parser.get('Admin', 'debug')
+    DEBUG = readConfig('Admin', 'debug')
     if(DEBUG.lower() == "false"):
       DEBUG = False
     elif(DEBUG.lower() == "true"):

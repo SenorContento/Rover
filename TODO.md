@@ -17,4 +17,15 @@
 # Automatic Bot Creator (Via Chat APIs)
 # TODO: Register commands via dictionary and support wildcard commands
 # Maybe eventually support timing of commands and modules to test for inefficiencies
+# Should I add an exit() function to modules (for cleanup, such as deleting variables from the dictionaries)?
+# Add support for Discord server!
+# Fix commands/guess.py (I never implemented the guessing game for lack of a database to store user sessions)!
+# Fix commands/hash.py (I need to add support for multiple hashing algorithms that the user can specify to use)!
 ###TODO TODO TODO
+
+###Immediate Attention
+# Fix database.py (There was no database to begin with, so you have to do this from scratch)
+# Fix modules/telegram.py
+#  * How should I send multiple messages from modules? Do I use an array?
+#  * Fix commands/otp.py! I need to get Telegram working first!  
+###Immediate Attention

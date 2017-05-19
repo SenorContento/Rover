@@ -28,7 +28,11 @@ except ImportError:
 def init():
   global OTP
 
-  OTP = settings.setVariable("otp", settings.readConfig('Admin', 'otp'))
+  try:
+    OTP = settings.setVariable("otp", settings.readConfig('Admin', 'otp'))
+  except:
+    OTP = settings.setVariable("otp", pyotp.random_base32())
+    print("Your temporary OTP Key (for the %s module) is: %s" % (__module__, OTP))
   #print("Debug: %s!" % execute("/debug 000000"))
 
 #################################################################################################
