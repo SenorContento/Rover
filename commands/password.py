@@ -5,16 +5,6 @@ __purpose__ = 'test whether or not the user can authenticate with a password'
 #Imports
 #################################################################################################
 try:
-  import os
-except ImportError:
-  print("ImportError! Cannot import os!")
-
-try:
-  import sys
-except ImportError:
-  print("ImportError! Cannot import sys!")
-
-try:
   import settings
 except ImportError:
   print("ImportError! Cannot import settings (This is a Rover library)!")

@@ -5,6 +5,11 @@ __purpose__ = 'handle variables for different modules load for Rover'
 #Imports
 #################################################################################################
 try:
+  import os
+except ImportError:
+  print("ImportError! Cannot import os!")
+
+try:
   from configparser import SafeConfigParser
 except ImportError:
   print("ImportError! Cannot import SafeConfigParser from configparser!")
@@ -13,11 +18,6 @@ try:
   import codecs
 except ImportError:
   print("ImportError! Cannot import codecs!")
-
-try:
-  import os
-except ImportError:
-  print("ImportError! Cannot import os!")
 
 #Dictionaries
 #################################################################################################

@@ -5,16 +5,6 @@ __purpose__ = 'allow the user to generate and test OTP codes'
 #Imports
 #################################################################################################
 try:
-  import os
-except ImportError:
-  print("ImportError! Cannot import os!")
-
-try:
-  import sys
-except ImportError:
-  print("ImportError! Cannot import sys!")
-
-try:
   import pyotp
 except ImportError:
   print("ImportError! Cannot import pyotp (Python One Time Pad)!")

@@ -1,12 +1,9 @@
 __author__ = 'SenorContento' #Me: Brandon Gomez
+__named__ = 'the starting file'
+__purpose__ = 'start Rover'
 
 #Imports
 #################################################################################################
-try:
-  import os
-except ImportError:
-  print("ImportError! Cannot import os!")
-
 try:
   import time
 except ImportError:

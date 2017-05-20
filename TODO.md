@@ -21,6 +21,7 @@
 # Add support for Discord server!
 # Fix commands/guess.py (I never implemented the guessing game for lack of a database to store user sessions)!
 # Fix commands/hash.py (I need to add support for multiple hashing algorithms that the user can specify to use)!
+# Remove imports that I don't need! For example, do I need sys or os in every file?
 ###TODO TODO TODO
 
 ###Immediate Attention

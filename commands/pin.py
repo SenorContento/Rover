@@ -5,16 +5,6 @@ __purpose__ = 'test whether or not the user can authenticate with a pin on a pbx
 #Imports
 #################################################################################################
 try:
-  import os
-except ImportError:
-  print("ImportError! Cannot import os!")
-
-try:
-  import sys
-except ImportError:
-  print("ImportError! Cannot import sys!")
-
-try:
   import random
 except ImportError:
   print("ImportError! Cannot import random!")
@@ -52,8 +42,6 @@ def init():
 def execute(command):
   command = command.split(" ") # This allows me to split the user's message into an array!
   # So, design choice, do I split this before hand, or make every module do it? I do have performance I have to keep up!
-
-  return("This command is designed to be used with a PBX machine! Please don't try executing this code!")
 
   if command[0][1:].lower() == "pin":
     if len(command) < 2:

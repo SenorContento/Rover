@@ -5,16 +5,6 @@ __purpose__ = 'allow the user to hash data'
 #Imports
 #################################################################################################
 try:
-  import os
-except ImportError:
-  print("ImportError! Cannot import os!")
-
-try:
-  import sys
-except ImportError:
-  print("ImportError! Cannot import sys!")
-
-try:
   from Crypto.Hash import SHA256
 except ImportError:
   print("ImportError! Cannot import SHA256 from Crypto.Hash! The package is pycrypto!")

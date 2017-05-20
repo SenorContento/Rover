@@ -5,16 +5,6 @@ __purpose__ = 'play a guessing game with the users of the bot'
 #Imports
 #################################################################################################
 try:
-  import os
-except ImportError:
-  print("ImportError! Cannot import os!")
-
-try:
-  import sys
-except ImportError:
-  print("ImportError! Cannot import sys!")
-
-try:
   import settings
 except ImportError:
   print("ImportError! Cannot import settings (This is a Rover library)!")
@@ -27,7 +17,7 @@ def init():
 
 #################################################################################################
 def execute(command):
-  debug = settings.retrieveVariable("debug")
+  debug = settings.retrieveVariable("debug") # Should I turn this into a global or load it outside of a function?
 
   command = command.split(" ") # This allows me to split the user's message into an array!
   # So, design choice, do I split this before hand, or make every module do it? I do have performance I have to keep up!

@@ -1,15 +1,14 @@
 __author__ = 'SenorContento' #Me: Brandon Gomez
-__module__ = 'weather'
-__purpose__ = 'allow the user to learn about the weather'
+__module__ = 'start'
+__purpose__ = 'let the user know any information needed to run the robot'
 
 #Imports
 #################################################################################################
 None
 
+#Functions
 #################################################################################################
 def init():
-  #print("I am module %s!\nMy purpose is to %s!" % (__module__, __purpose__))
-  #print("Weather: %s" % execute("/weather new york"))
   None
 
 #################################################################################################
@@ -17,11 +16,8 @@ def execute(command):
   command = command.split(" ") # This allows me to split the user's message into an array!
   # So, design choice, do I split this before hand, or make every module do it? I do have performance I have to keep up!
 
-  if command[0][1:].lower() == "weather":
-    if len(command) < 2:
-      return("You need to supply the city (or coordinates) as an argument (or add a city as your preference)!!!")
-    else:
-      return("Weather is not supported yet!!!")
+  if command[0][1:].lower() == "start":
+    return("This robot currently can only support text messages! Support for photos, sound, documents and more is coming soon!")
 
 #################################################################################################
 if __name__ == "__main__":
