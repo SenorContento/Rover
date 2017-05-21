@@ -23,8 +23,8 @@ except ImportError:
 #################################################################################################
 if __name__ == "__main__":
   settings.init()
+  modules.loadfolder("commands") # Figure out what to do about Discord blocking!
   modules.loadfolder("modules")
-  modules.loadfolder("commands")
 
   # Keep the program running.
   while 1:
