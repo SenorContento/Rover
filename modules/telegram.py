@@ -93,7 +93,10 @@ def handle(message):
   if content_type == 'text':
     if debug:
       print("Message: %s" % message['text'])
-    bot.sendMessage(chat_id, modules.allcommands("commands", message['text']))
+
+    output = modules.allcommands("commands", message['text'])
+    if output is not None:
+      bot.sendMessage(chat_id, output)
 
   if debug:
     print() # Output a newline

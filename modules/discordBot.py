@@ -71,7 +71,10 @@ def on_message(message):
   if content_type == 'text':
     if debug:
       print("Message: %s" % message.content) #.startswith("test") - Maybe useful in increasing speed!
-    yield from client.send_message(message.channel, modules.allcommands("commands", message.content))
+
+    output = modules.allcommands("commands", message['text'])
+    if output is not None:
+      yield from client.send_message(message.channel, output)
 
   if debug:
     print() # Output a newline
