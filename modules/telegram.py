@@ -44,8 +44,8 @@ except ImportError:
 #################################################################################################
 def init():
   try:
-    #token = settings.setVariable("telegram.token", settings.readConfig('Telegram', 'token'))
-    token = settings.setVariable("telegram.token", settings.readConfig('Telegram', 'debugtoken'))
+    token = settings.setVariable("telegram.token", settings.readConfig('Telegram', 'token'))
+    #token = settings.setVariable("telegram.token", settings.readConfig('Telegram', 'debugtoken'))
   except:
     print("You need a token to communicate with Telegram!!! Talk to @BotFather on Telegram!!!")
 
