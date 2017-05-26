@@ -44,8 +44,8 @@ except ImportError:
 #################################################################################################
 def init():
   try:
-    token = settings.setVariable("telegram.token", settings.readConfig('Telegram', 'token'))
-    #token = settings.setVariable("telegram.token", settings.readConfig('Telegram', 'debugtoken'))
+    #token = settings.setVariable("telegram.token", settings.readConfig('Telegram', 'token'))
+    token = settings.setVariable("telegram.token", settings.readConfig('Telegram', 'debugtoken'))
   except:
     print("You need a token to communicate with Telegram!!! Talk to @BotFather on Telegram!!!")
 
@@ -92,7 +92,10 @@ def handle(message):
 
   if content_type == 'text':
     if debug:
-      print("Message: %s" % message['text'])
+      try:
+        print("Message: %s" % message['text'])
+      except UnicodeEncodeError:
+        print("Message: %s" % message['text'].encode('latin-1', 'replace'))
 
     output = modules.allcommands("commands", message['text'])
     if output is not None:

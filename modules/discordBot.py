@@ -70,7 +70,10 @@ def on_message(message):
   content_type = 'text'
   if content_type == 'text':
     if debug:
-      print("Message: %s" % message.content) #.startswith("test") - Maybe useful in increasing speed!
+      try:
+        print("Message: %s" % message.content) #.startswith("test") - Maybe useful in increasing speed!
+      except UnicodeEncodeError:
+        print("Message: %s" % message.content.encode('latin-1', 'replace'))
 
     output = modules.allcommands("commands", message['text'])
     if output is not None:
