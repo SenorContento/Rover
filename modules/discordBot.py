@@ -75,7 +75,7 @@ def on_message(message):
       except UnicodeEncodeError:
         print("Message: %s" % message.content.encode('latin-1', 'replace'))
 
-    output = modules.allcommands("commands", message.content)
+    output = modules.allcommands("commands", message['text'])
     if output is not None:
       yield from client.send_message(message.channel, output)
 

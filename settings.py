@@ -42,18 +42,13 @@ except:
 #################################################################################################
 def init():
   # Ensures Debug is a boolean
+  #retrieveVariable("debug") # Not part of this code, just here for reference!
   try:
-    #retrieveVariable("debug") # Not part of this code, just here for reference!
     DEBUG = readConfig('Admin', 'debug')
-    if(DEBUG.lower() == "false"):
-      DEBUG = False
-    elif(DEBUG.lower() == "true"):
-      DEBUG = True
-    else: # Incase of malformed value
-      DEBUG = True
+    DEBUG = readBoolean(DEBUG, True)
+    setVariable("debug", DEBUG)
   except: # Should I do KeyError or NoOptionError?
     DEBUG = False
-  setVariable("debug", DEBUG)
 
 #################################################################################################
 def readConfig(section, key):
@@ -75,6 +70,18 @@ def setVariable(variable, value):
 #################################################################################################
 def deleteVariable(variable):
   del variables[variable]
+
+#################################################################################################
+def readBoolean(value, default):
+  BOOL = False
+  if(value.lower() == "false"):
+    BOOL = False
+  elif(value.lower() == "true"):
+    BOOL = True
+  else: # Incase of malformed value
+    BOOL = default
+
+  return BOOL
 
 #################################################################################################
 if __name__ == "__main__":

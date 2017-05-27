@@ -10,6 +10,11 @@ except ImportError:
   print("ImportError! Cannot import os!")
 
 try:
+  import sys
+except ImportError:
+  print("ImportError! Cannot import sys!")
+
+try:
   import time
 except ImportError:
   print("ImportError! Cannot import time!")
@@ -34,5 +39,8 @@ if __name__ == "__main__":
 
   # Keep the program running.
   while 1:
-    time.sleep(10)
-
+    try:
+      time.sleep(10)
+    except KeyboardInterrupt:
+      print("Shutting Down! Have a nice day!")
+      sys.exit()
