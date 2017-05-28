@@ -94,6 +94,39 @@ def allcommands(folder, command):
         print_exc()
 
 #################################################################################################
+def exit(filepath):
+    name,extension = os.path.splitext(os.path.split(filepath)[-1])
+
+    if extension.lower() == '.py': # Checks if the extension of the module ends in .py (Scripted Python)
+        module = imp.load_source(name, filepath)
+    elif extension.lower() == '.pyc': # Checks if the extension of the module ends in .pyc (Compiled Python)
+        module = imp.load_compiled(name, filepath)
+
+    # Loads the function init
+    init = 'exit'
+    if hasattr(module, init):
+        function = getattr(module, init)()
+
+    return function
+
+#################################################################################################
+def exitfolder(folder):
+    files = os.listdir(folder)
+
+    #print("Files: %s" % files)
+    #print("Number: %s" % len(files))
+
+    for f in files:
+      #print("File: %s" % f)
+      try:
+        exit(os.path.join(folder, f))
+      except UnboundLocalError: # I need quiet (except for the errors that are actually important)!
+        None
+      except: # Because not all files (or folders) in the commands folder are modules! Thanks __pycache__!
+        from traceback import print_exc
+        print_exc()
+
+#################################################################################################
 if __name__ == "__main__":
   print("Please don't run me directly! I am %s!\nMy purpose is to %s!" % (__named__, __purpose__))
 
