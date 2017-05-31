@@ -1,4 +1,5 @@
 rover.sqlite
-.pyc
+*.pyc
 rover.ini
 _pycache
+minecraft/
