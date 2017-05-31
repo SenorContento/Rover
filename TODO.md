@@ -18,6 +18,9 @@
 # Fix commands/hash.py (I need to add support for multiple hashing algorithms that the user can specify to use)!
 # Allow @ symbol to delimit command (i.e. /guess@RobotName)
 # Add support to control Minecraft Client (and/or server) with python) - Should be easier with Raspberry Pi plugin. Let's see if I cannot do this on client side!
+# http://docs.python-requests.org/en/master/user/quickstart/
+# http://wiki.vg/Mojang_API
+# Make support for Pocket Edition Minecraft (after PC version)
 ###TODO TODO TODO
 
 ###Immediate Attention
