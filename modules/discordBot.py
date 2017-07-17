@@ -20,11 +20,6 @@ except ImportError:
   print("ImportError! Cannot import settings (This is a Rover library)!")
 
 try:
-  import database
-except ImportError:
-  print("ImportError! Cannot import database (This is a Rover library)!")
-
-try:
   import modules
 except ImportError:
   print("ImportError! Cannot import modules (This is a Rover library)!")
@@ -34,11 +29,6 @@ client = discord.Client()
 #Functions
 #################################################################################################
 def init():
-  try:
-    database.addTable("discord")
-  except:
-    print("Cannot create table in (discord) Database!")
-
   try:
     token = settings.setVariable("Discord.token", settings.readConfig('Discord', 'token'))
     #token = settings.setVariable("Discord.token", settings.readConfig('Discord', 'debugtoken'))
@@ -74,11 +64,6 @@ def on_ready():
 def on_message(message):
   debug = settings.retrieveVariable("debug") # Should I turn this into a global or load it outside of a function?
   
-  try:
-    database.insertValues("discord", str(message))
-  except:
-    print("Cannot insert values into (discord) database!")
-
   if debug:
     None
 

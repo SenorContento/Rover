@@ -15,9 +15,9 @@ except ImportError:
   print("ImportError! Cannot import settings (This is a Rover library)!")
 
 try:
-  from subprocess import call
+  from subprocess import Popen, PIPE
 except ImportError:
-  print("ImportError! Cannot import call from subprocess!")
+  print("ImportError! Cannot import Popen (or PIPE) from subprocess!")
 
 #################################################################################################
 def init():
@@ -49,17 +49,38 @@ def execute(command):
       if len(command) < 3:
         if otp(command[1]):
           # Flip screen on and off!
-          return("The screen has been set to %s!" % False)
+          p = Popen(["vcgencmd", "display_power"], stdin=PIPE, stdout=PIPE, stderr=PIPE) # Checks screen status!
+          output, err = p.communicate()
+          if output.decode('latin').split('=')[1] == '1\n':
+            Popen(["vcgencmd", "display_power", "0"]) # Turns Screen Off!
+            return("The screen has been turned off!!")
+          elif output.decode('latin').split('=')[1] == '0\n':
+            Popen(["vcgencmd", "display_power", "1"]) # Turns Screen On!
+            return("The screen has been turned on!")
+          else:
+            return("The screen is set to %s!" % output.decode('latin'))
         else:
           return("Wrong OTP Code!")
       else:
         if otp(command[1]):
-          if command[2].lower() == "true":
-            call(["vcgencmd", "display_power", "1"]) # Turns Screen On!
+          if command[2].lower() == "on" or command[2].lower() == "true":
+            p = Popen(["vcgencmd", "display_power", "1"], stdin=PIPE, stdout=PIPE, stderr=PIPE) # Turns Screen On!
+            #output, err = p.communicate(b"input data that is passed to subprocess' stdin")
+            #rc = p.returncode
             return("The screen has been turned on!")
-          if command[2].lower() == "false":
-            call(["vcgencmd", "display_power", "0"]) # Turns Screen Off!
+          if command[2].lower() == "off" or command[2].lower() == "false":
+            p = Popen(["vcgencmd", "display_power", "0"], stdin=PIPE, stdout=PIPE, stderr=PIPE) # Turns Screen Off!
             return("The screen has been turned off!")
+          if command[2].lower() == "check":
+            p = Popen(["vcgencmd", "display_power"], stdin=PIPE, stdout=PIPE, stderr=PIPE) # Turns Screen Off!
+            output, err = p.communicate()
+            
+            if output.decode('latin').split('=')[1] == '1\n':
+              return("The screen is currently on!")
+            elif output.decode('latin').split('=')[1] == '0\n':
+              return("The screen is currently off!")
+            else:
+              return("The screen is currently %s!" % output.decode('latin'))
         else:
           return("Wrong OTP Code!")
 

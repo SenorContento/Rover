@@ -25,11 +25,6 @@ except ImportError:
   print("ImportError! Cannot import settings (This is a Rover library)!")
 
 try:
-  import database
-except ImportError:
-  print("ImportError! Cannot import database (This is a Rover library)!")
-
-try:
   import modules
 except ImportError:
   print("ImportError! Cannot import modules (This is a Rover library)!")
@@ -39,7 +34,6 @@ except ImportError:
 if __name__ == "__main__":
   os.chdir(os.path.dirname(os.path.realpath(__file__))) # This changes the CWD (Current Working Directory) to be where this file is. It allows the script to be executed from any directory instead of the user changing it first.
   settings.init()
-  database.init()
   modules.loadfolder("commands") # Figure out what to do about Discord blocking!
   modules.loadfolder("modules")
 
@@ -49,7 +43,4 @@ if __name__ == "__main__":
       time.sleep(10)
     except KeyboardInterrupt:
       print("Shutting Down! Have a nice day!")
-      modules.loadfolder("commands") # This is incase you need to properly close stuff to exit!
-      modules.loadfolder("modules")
-      database.exit()
       sys.exit()
