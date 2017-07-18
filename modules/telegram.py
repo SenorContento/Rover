@@ -36,6 +36,11 @@ except ImportError:
   print("ImportError! Cannot import settings (This is a Rover library)!")
 
 try:
+  import database
+except ImportError:
+  print("ImportError! Cannot import database (This is a Rover library)!")
+
+try:
   import modules
 except ImportError:
   print("ImportError! Cannot import modules (This is a Rover library)!")
@@ -43,6 +48,11 @@ except ImportError:
 #Functions
 #################################################################################################
 def init():
+  try:
+    database.addTable("telegram")
+  except:
+    print("Cannot create table in (telegram) Database!")
+
   try:
     token = settings.setVariable("telegram.token", settings.readConfig('Telegram', 'token'))
     #token = settings.setVariable("telegram.token", settings.readConfig('Telegram', 'debugtoken'))
@@ -71,6 +81,12 @@ def init():
 def handle(message):
   debug = settings.retrieveVariable("debug") # Should I turn this into a global or load it outside of a function?
   content_type, chat_type, chat_id = telepot.glance(message) # This is quite literally a tuple with only these 3 values!
+
+  database.insertValues("telegram", str(message))
+  try:
+    database.insertValues("telegram", str(message))
+  except:
+    print("Cannot insert values into (telegram) database!")
 
   if debug:
     print("Content Type: %s" % content_type)

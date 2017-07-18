@@ -44,10 +44,21 @@ try:
 except ImportError:
   print("ImportError! Cannot import json!")
 
+try:
+  import database
+except ImportError:
+  print("ImportError! Cannot import database (This is a Rover library)!")
+
 #Functions
 #################################################################################################
 def init():
   debug = settings.retrieveVariable("debug") # Should I turn this into a global or load it outside of a function?
+
+  database.addTable("minecraft")
+  try:
+    database.addTable("minecraft")
+  except:
+    print("Cannot create table in (minecraft) Database!")
 
   if debug:
     print("Setting Variables!")
@@ -138,6 +149,12 @@ debug = settings.retrieveVariable("debug") # Should I turn this into a global or
 def handle(messageData): # This function can only get chat messages, so I don't have to worry about handling other messages!
   # This is a mess! Btw, Rover can pick up its own chat messages! Be careful not to put Rover into a loop!
   messageJSON = json.loads(messageData.json_data)
+
+  try:
+    database.insertValues("minecraft", str(messageJSON))
+  except:
+    print("Cannot insert values into (minecraft) database!")
+
   if debug:
     print("Got message JSON: %s!" % messageJSON)
 
@@ -164,13 +181,13 @@ def connectServer(server, port, username, password):
   if debug:
     print("Connecting to online-mode server \"%s:%s\" under the username \"%s\"!" % (server, port, username))
 
-  #try:
-  auth_token = authentication.AuthenticationToken()
-  auth_token.authenticate(username, password)
-  connection = Connection(server, port, auth_token)
-  connection.connect()
-  #except:
-  #  print("Cannot connect to server (Online Mode)!")
+  try:
+    auth_token = authentication.AuthenticationToken()
+    auth_token.authenticate(username, password)
+    connection = Connection(server, port, auth_token)
+    connection.connect()
+  except:
+    print("Cannot connect to server (Online Mode)!")
 
   try:
     connection.register_packet_listener(handle, ChatMessagePacket) # Sets up function to handle chat messages!
