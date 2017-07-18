@@ -54,7 +54,6 @@ except ImportError:
 def init():
   debug = settings.retrieveVariable("debug") # Should I turn this into a global or load it outside of a function?
 
-  database.addTable("minecraft")
   try:
     database.addTable("minecraft")
   except:

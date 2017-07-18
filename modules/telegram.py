@@ -82,7 +82,6 @@ def handle(message):
   debug = settings.retrieveVariable("debug") # Should I turn this into a global or load it outside of a function?
   content_type, chat_type, chat_id = telepot.glance(message) # This is quite literally a tuple with only these 3 values!
 
-  database.insertValues("telegram", str(message))
   try:
     database.insertValues("telegram", str(message))
   except:
