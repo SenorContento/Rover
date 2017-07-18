@@ -131,7 +131,7 @@ def init():
     port = settings.retrieveVariable("minecraft.port")
 
     if not settings.retrieveVariable("minecraft.offline"):
-      password = settings.retrieveVariable("minecraft.pw") # Move this one for online mode only!
+      password = settings.retrieveVariable("minecraft.pw")
       if debug:
         print("Connecting to server (online-mode)!")
       connectServer(server, port, username, password) # Connects to the server if connect mode is enabled
