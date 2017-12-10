@@ -1,34 +1,18 @@
 __author__ = 'SenorContento' #Me: Brandon Gomez
-__module__ = 'telegram'
-__purpose__ = 'communicate with the Telegram server'
+__module__ = 'stream'
+__purpose__ = 'communicate with the stream server'
+
+# TODO TODO TODO
+# I made this stream module "generic"!
+# I do not know what program or library I will call to make this work and a module template is long overdue!
+# TODO TODO TODO
 
 #Imports
 #################################################################################################
 try:
-  import telepot
+  #import stream
 except ImportError:
-  print("ImportError! Cannot import telepot!")
-
-try:
-  import telepot.loop
-except ImportError:
-  print("ImportError! Cannot import telepot.loop!")
-
-try:
-  import asyncio
-except ImportError:
-  print("ImportError! Cannot import asyncio!")
-
-# I seem to have some trouble importing the async part of telepot. The synchronous part works just fine!
-try:
-  import telepot.aio
-except ImportError:
-  print("ImportError! Cannot import telepot.aio!")
-
-try:
-  import telepot.aio.loop
-except ImportError:
-  print("ImportError! Cannot import telepot.aio.loop!")
+  print("ImportError! Cannot import stream library (This is to connect to stream)!")
 
 try:
   import settings
@@ -49,79 +33,55 @@ except ImportError:
 #################################################################################################
 def init():
   try:
-    database.addTable("telegram")
+    database.addTable("stream")
   except:
-    print("Cannot create table in (telegram) Database!")
+    print("Cannot create table in (stream) Database!")
 
   try:
-    token = settings.setVariable("telegram.token", settings.readConfig('Telegram', 'token'))
-    #token = settings.setVariable("telegram.token", settings.readConfig('Telegram', 'debugtoken'))
+    token = settings.setVariable("stream.token", settings.readConfig('Stream', 'token'))
   except:
-    print("You need a token to communicate with Telegram!!! Talk to @BotFather on Telegram!!!")
+    print("You need a token to communicate with Stream server!!! Talk to Someone???!!!")
 
   try:
     # Create access to bot
     global bot
-    bot = telepot.Bot(token)
-    bot.setWebhook() # Should disable any webhook you have!
-    botInfo = bot.getMe()
+    bot = None # Some kind of Bot
 
-    print("Username: %s" % botInfo['username']) #Just putting print bot.getMe() will return JSON!
-    print("Name: %s" % botInfo['first_name'])
-    print("Robot's ID: %s\n" % botInfo['id'])
-
-    telepot.loop.MessageLoop(bot, handle).run_as_thread() #run_forever()?
-  except telepot.exception.TelepotException as e: #Why can I not catch this exception?
-    print('Telegram Error! "%d: %s"' % (e.error_code, e.description))
+    # TODO Run infinite loop here! loop()
+  except stream.exception.SomeException as e:
+    print('Stream Error! "%d: %s"' % (e.error_code, e.description))
   except:
     None
-    #print("Cannot load Telegram Robot!")
+    #print("Cannot load Stream!")
 
 #################################################################################################
 def handle(message):
   debug = settings.retrieveVariable("debug") # Should I turn this into a global or load it outside of a function?
-  content_type, chat_type, chat_id = telepot.glance(message) # This is quite literally a tuple with only these 3 values!
 
   try:
-    database.insertValues("telegram", str(message))
+    database.insertValues("stream", str(message))
   except:
-    print("Cannot insert values into (telegram) database!")
+    print("Cannot insert values into (stream) database!")
 
   if debug:
-    print("Content Type: %s" % content_type)
-    print("Chat Type: %s" % chat_type)
-    print("Chat ID: %s" % chat_id)
-    print("User ID: %s" % message['from']['id'])
-    try:
-      print("User Name: %s" % message['from']['username'])
-    except:
-      print("User Name is Not Available")
-    try:
-      print("First Name: %s" % message['from']['first_name'])
-    except:
-      print("First Name is Not Available")
-    try:
-      print("Last Name: %s" % message['from']['last_name'])
-    except:
-      print("Last Name is Not Available")
+    print("Debug??? (Some Kind of Stream Values): %s" % debug)
 
-  if content_type == 'text':
-    if debug:
-      try:
-        print("Message: %s" % message['text'])
-      except UnicodeEncodeError:
-        print("Message: %s" % message['text'].encode('latin-1', 'replace'))
+  if debug:
+    try:
+      print("Message: %s" % message)
+    except UnicodeEncodeError:
+      print("Message: %s" % message.encode('latin-1', 'replace'))
 
-    output = modules.allcommands("commands", message['text'])
+    output = modules.allcommands("commands", message)
     if output is not None:
-      bot.sendMessage(chat_id, output)
+      # Send Message!!! Stream Chat???
 
   if debug:
     print() # Output a newline
 
   # So, I need to be able to figure out how to call the commands, 
   # parse their response, and then choose the appropriate method to send the data back!
-  # For example, send photos with sendPhoto, 
+  # For example, send photos with sendPhoto, audio with sendAudio, text with sendText, etc...
 
 #################################################################################################
 if __name__ == "__main__":

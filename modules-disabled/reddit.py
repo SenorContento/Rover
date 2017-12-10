@@ -95,7 +95,7 @@ def pollSubreddit(subreddit):
 
   arbLimitPost = 10
   # You will want to set an arbitrary limit, unless you want to spend precious CPU time with going over a possible really long subreddit!
-  # The cool thing with setting the limit with a variable is that with some framework, this robot can chose to change its own limit, say because it already has checked out a newer post, but needs to see an older post, which it does not have the id for.
+  # The cool thing with setting the limit with a variable is that with some framework, this robot can choose to change its own limit, say because it already has checked out a newer post, but needs to see an older post, which it does not have the id for.
   # If you wanted to remove the limit, just set it to None (e.g. limit=None)
   subreddit = bot.subreddit(subreddit)
 
@@ -122,7 +122,7 @@ def pollSubreddit(subreddit):
       print()
     reply = handle(submission.selftext) # Allows processing all submissions (but not the comments)
     replyTitle = handle(submission.title)
-    # Noticed, I pulled out the whole submission and only left the body. The handle(...) function is generic and processes the raw data it is given.
+    # Notice, I pulled out the whole submission and only left the body. The handle(...) function is generic and processes the raw data it is given.
     # It is meant for generic robot commands, not for Reddit specific features! Reddit specific features gets its own functions in this file.
 
     # Reply Stage
@@ -134,7 +134,7 @@ def pollSubreddit(subreddit):
 
     #-----------------------------------------------------------------------------------------------------------------------------------------------
 
-    arbLimitComment = 100
+    arbLimitComment = None #100
     # Keep a separate limit on comment polls - Just set to None if you don't want a limit!
     # TODO - Figure out how to skip an arbitrary number of posts and comments to avoid buffer issue while still seeing all posts!
 
