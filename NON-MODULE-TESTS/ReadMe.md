@@ -1,0 +1,1 @@
+This is where I can perform some tests in non-module shaped files when developing Rover! These files will be deleted when no longer needed as they are not part of Rover's code, so if you want them, you will need to either remember the commit hash or save the file yourself.
