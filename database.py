@@ -30,57 +30,50 @@ except:
 #################################################################################################
 
 def init():
+  """ Initializes database, should have already been called by Rover, don't load yourself!!! """
   # http://pythoncentral.io/introduction-to-sqlite-in-python/
+  # http://sebastianraschka.com/Articles/2014_sqlite_in_python_tutorial.html
 
-  None
+  # Until you learn sqlite command line or get a graphical editor - https://sqliteonline.com/
+  # LEARN HOW TO READ TABLES - http://www.sqlitetutorial.net/sqlite-select/
+
+  global db
+  global cursor
+
+  db, cursor = connect()
   
-  # Can be used to list tables, just need to figure out how to read response to cursor!!!
-  #try:
-  #  if debug:
-  #    cursor.execute('''
-  #      SELECT name FROM sqlite_master
-  #      WHERE type='table'
-  #      ORDER BY name;
-  #      ''')
-  #except:
-  #  print("Cannot List Tables!!!")
-  #  print_exc()
+  # BASIC DUMP TABLE
+  # select column from table;
+  # select * from telegram;
 
-  # Allows me to record messages for future reference!!!
-  #cursor = db.cursor()
-  #cursor.execute('''
-  #  insert into telegram values (?,?,?,?,?,?,?,?,?)
-  #  '''), 0, message['date'], message['text'], 
-  #db.commit()
+def connect():
+    """ Loads database from config """
+    db = sqlite3.connect(settings.retrieveVariable("sql"), check_same_thread=False) #Not :memory:
+    # The check_same_thread=False is to get around the fact that Rover is multithreaded. This weakens security, but I will take the extra steps to make sure this doesn't happen.
+    db.row_factory = sqlite3.Row
+    cursor = db.cursor()
+
+    return db, cursor
 
 def addTable(table):
-  executecursor('''CREATE TABLE if not exists ''' + table + '''(rowID INTEGER PRIMARY KEY AUTOINCREMENT, date INTEGER, JSON TEXT)''')
-
-def insertValues(table, values): # This needs to be dynamic as I will eventually support more than just storing JSON!!! I am only storing JSON just so I can have a working database at all, not because I want it to do this!
-  date = int(datetime.datetime.now().strftime("%s")) * 1000
-  executecursor('''INSERT INTO ''' + table + '''(rowID, date, JSON) VALUES(?,?)''', [(date, values)])
-
-def executecursor(execute):
-  db = sqlite3.connect(settings.retrieveVariable("sql")) #Not :memory:
-  db.row_factory = sqlite3.Row
-  cursor = db.cursor()
-
-  cursor.execute(execute)
-  db.close()
-
-def executecursor(execute, values):
-  # This is a mess, between the OperationalError and not being able to use cursor outside of the same function
-  # https://stackoverflow.com/questions/20788403/inserting-to-sqlite-dynamically-with-python-3
-  db = sqlite3.connect(settings.retrieveVariable("sql")) #Not :memory:
-  db.row_factory = sqlite3.Row
-  cursor = db.cursor()
-
-  cursor.execute(execute, values)
+  """ Creates table for module or command!!! """
+  cursor.execute('''CREATE TABLE if not exists ''' + table + ''' (rowID INTEGER PRIMARY KEY AUTOINCREMENT, date INTEGER, JSON TEXT)''')
+  # TODO: The above code is super insecure. I need to figure out why sanitization results in syntax error and find the right syntax for dynamic tables.
   db.commit()
-  db.close()
+
+def insertValues(table, values):
+  """ Inserts data into table! Values needs to be in JSON string format!!! """
+  # This needs to be dynamic as I will eventually support more than just storing JSON!!!
+
+  date = int(datetime.datetime.now().strftime("%s")) * 1000
+  cursor.execute('''INSERT INTO ''' + table + ''' (rowID, date, JSON) VALUES(?,?,?)''', (None, date, values)) # Putting None allows for incremental rowIDs since cursor still requires some value even though it should not be needed.
+  # TODO: The above code is super insecure. I need to figure out why sanitization results in syntax error and find the right syntax for dynamic tables.
+  db.commit()
 
 def exit():
-  db.close()
+  """ Commits and Closes Database """
+  db.commit() # Should be completely unecessary, but good to make sure everything is committed!
+  db.close() # Properly close the database
 
 #################################################################################################
 if __name__ == "__main__":

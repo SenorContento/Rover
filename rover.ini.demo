@@ -1,3 +1,6 @@
+[Info]
+README = I got tired of moving my rover.ini in and out of the GIT Repo every time I went to commit my code, so I am renaming this to rover.ini.demo and using .gitignore to avoid pushing rover.ini!
+
 [Database]
 file = rover.sqlite
 
