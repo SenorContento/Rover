@@ -143,6 +143,8 @@ def init():
       #None
       #print("Cannot connect to server!") # Please be more descriptive
 
+  print("Loaded Minecraft Robot!!! If you do not see any connection error message and wanted to connect, you should be good!")
+
 #################################################################################################
 debug = settings.retrieveVariable("debug") # Should I turn this into a global or load it outside of a function?
 def handle(messageData): # This function can only get chat messages, so I don't have to worry about handling other messages!

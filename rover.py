@@ -49,7 +49,7 @@ if __name__ == "__main__":
       time.sleep(10)
     except KeyboardInterrupt:
       print("Shutting Down! Have a nice day!")
-      modules.loadfolder("commands") # This is incase you need to properly close stuff to exit!
-      modules.loadfolder("modules")
+      modules.exitfolder("commands") # This is incase you need to properly close stuff to exit!
+      modules.exitfolder("modules")
       database.exit()
       sys.exit()
