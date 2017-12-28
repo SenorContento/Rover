@@ -15,27 +15,38 @@ except ImportError:
   print("ImportError! Cannot import modules (This is a Rover library)!")
 
 try:
-  from minecraft import authentication
+  #from minecraft import authentication
+  from minecraft.minecraft import authentication
 except ImportError:
   print("ImportError! Cannot import authentication from minecraft (This is from a pyCraft library)!")
+  while True:
+    None
 
 try:
-  from minecraft.exceptions import YggdrasilError
+  #from minecraft.exceptions import YggdrasilError
+  from minecraft.minecraft.exceptions import YggdrasilError
 except ImportError:
   print("ImportError! Cannot import YggdrasilError from minecraft.exceptions (This is from a pyCraft library)!")
+  while True:
+    None
 
+#from minecraft.minecraft.networking.connection import Connection
+import minecraft.minecraft.networking.connection.Connection
 try:
-  from minecraft.networking.connection import Connection
+  #from minecraft.networking.connection import Connection
+  from minecraft.minecraft.networking.connection import Connection
 except ImportError:
   print("ImportError! Cannot import Connection from minecraft.networking.connection (This is from a pyCraft library)!")
 
 try:
-  from minecraft.networking.packets import ChatMessagePacket, ChatPacket # Should I split this?
+  #from minecraft.networking.packets import ChatMessagePacket, ChatPacket # Should I split this?
+  from minecraft.minecraft.networking.packets import ChatMessagePacket, ChatPacket
 except ImportError:
   print("ImportError! Cannot import ChatMessagePacket and ChatPacket from minecraft.networking.packets (This is from a pyCraft library)!")
 
 try:
-  from minecraft.compat import input
+  #from minecraft.compat import input
+  from minecraft.minecraft.compat import input
 except ImportError:
   print("ImportError! Cannot import input from minecraft.compat (This is from a pyCraft library)!")
 
