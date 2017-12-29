@@ -1,0 +1,34 @@
+<link rel="import" href="/sitedata/bower_components/polymer/polymer.html">
+<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>-->
+<!--JQuery Script if anyone ever wants to find and use it, mostly for me, but maybe you too-->
+<script src="/sitedata/bower_components/showdown/dist/showdown.min.js"></script>
+
+<!--Take note that you can use just about any javascript you want in the API following their format, as long as you do not edit or read the nodes using said javascript. The reason being is because the api that you are supposed to use can automatically handle the multiple LightDom elements, but cannot do so if you are using standard Javascript-->
+
+<!--Do note that the MathJax equations, although rendering correctly, will not look the same as their html only counterparts on the webpage. I would attempt to fix it, but I spent a major amount of time on this just so I could create a show-more tag to avoid writing a little html and track ids. If you know how to fix it, be my guest to do so.-->
+
+<!--Oh, one more thing, to comply with specifications, there has to be a dash in the custom html tags. I know there are ways to get around that, but I don't care that much, and if I do, I will just go look back into my git commit history for that markdown library I was trying out-->
+
+<dom-module id="markdown-parser">
+
+<template>
+  <p id="content" hidden><content></content></p>
+  <p id="parsed"></p>
+  <!--<textarea id="debug" height="100px" width="100px"></textarea>-->
+</template>
+
+  <script>
+    Polymer({
+      is: "markdown-parser",
+      ready: function() {
+        var converter = new showdown.Converter();
+    	var text = this.$.content.innerHTML;
+    	var html = converter.makeHtml(text);
+
+	this.$.parsed.innerHTML = html;
+	//document.getElementById('debug').value = html;
+      }
+    });
+  </script>
+
+</dom-module>

@@ -1,0 +1,47 @@
+<link rel="import" href="/sitedata/bower_components/polymer/polymer.html">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+<dom-module id="show-more">
+
+<template>
+  <style>
+    .more {
+      display: none;
+    }
+  </style>
+
+  <ul>
+    <li id="showli">
+      <a id="showme">{{name}}</a>
+    </li>
+  </ul>
+
+  <div id="hidden" class="more">
+    <content></content>
+    <br>
+    <a id="hideme">Hide {{name}}</a>
+  </div>
+</template>
+
+  <script>
+    var style = $('<style />').appendTo('head');
+    Polymer({
+      is: "show-more",
+      listeners: {
+        'showme.tap': 'showMe',
+        'hideme.tap': 'hideMe'
+      },
+      showMe: function(e) {
+	style.text('.show:before { content: ""; }');
+	this.$.showli.style.display = 'none';
+	this.$.hidden.style.display = 'block';
+      },
+      hideMe: function(e) {
+	this.$.hidden.style.display = 'none';
+	this.$.showli.style.display = 'inline';
+	style.text('.show:before { content: ">>"; }');
+      }
+    });
+  </script>
+
+</dom-module>

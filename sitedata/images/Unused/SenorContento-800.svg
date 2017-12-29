@@ -1,0 +1,16 @@
+<svg width="800" height="800" xmlns="http://www.w3.org/2000/svg">
+<rect width="800" height="800" fill="#F5C398"/>
+<rect width="800" height="100" fill="#3140FD"/>
+<rect x="200" y="200" width="100" height="100" fill="#FE6232"/>
+<rect x="500" y="200" width="100" height="100" fill="#FE6232"/>
+<rect x="100" y="400" width="100" height="200" fill="#FEC110"/>
+<rect x="600" y="400" width="100" height="200" fill="#FEC110"/>
+<rect x="100" y="500" width="500" height="100" fill="#FEC110"/>
+</svg>
+
+<!--
+#3140FD - Hair
+#FE6232 - Eyes
+#FEC110 - Mouth
+#F5C398 - Skin
+-->

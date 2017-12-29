@@ -1,0 +1,59 @@
+<link rel="import" href="/sitedata/bower_components/polymer/polymer.html">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+<dom-module id="show-dropdown">
+
+<template>
+  <style>
+    .more {
+      display: none;
+      position: absolute;
+      background: #151515 url("../images/bkg.png") 0 0;
+      border: 1px dashed #b5e853;
+    }
+    .more > ::content a { 
+      display: block;
+      /* padding: 5px 7px; */ /* Padding Makes the Content Inside Smaller */
+     }
+     #arrowup {
+      display: none;
+     }
+     #dropdown {
+      cursor: pointer;
+     }
+     #hidden {
+       display: none;
+     }
+  </style>
+
+  <div class="inline-block">
+  <a id="dropdown" class="btn btn-github">{{ name }}
+	<span id="arrowdown">&#x25BC;</span>
+	<span id="arrowup">&#x25B2;</span></a>
+
+  <div id="hidden" class="more">
+    <content></content>
+  </div></div>
+</template>
+
+  <script>
+    Polymer({
+      is: "show-dropdown",
+      listeners: {
+        'dropdown.tap': 'dropMe'
+      },
+      dropMe: function(e) {
+	if(this.$.hidden.style.display == 'none' || this.$.hidden.style.display == '') {
+	  this.$.hidden.style.display = 'block';
+	  this.$.arrowup.style.display = 'inline';
+	  this.$.arrowdown.style.display = 'none';
+	} else {
+	  this.$.hidden.style.display = 'none';
+	  this.$.arrowup.style.display = 'none';
+	  this.$.arrowdown.style.display = 'inline';
+	}
+      }
+    });
+  </script>
+
+</dom-module>

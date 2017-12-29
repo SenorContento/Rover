@@ -1,0 +1,95 @@
+<link rel="import" href="/sitedata/bower_components/polymer/polymer.html">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+<dom-module id="equ-projection">
+
+  <template>
+     <canvas id="canvas" width="{{ width }}" height="{{ height }}" style="border:1px solid #000000;"></canvas>
+     {{ message }}
+  </template>
+
+  <!--The photo in image is a temporary photo until I can produce one of my own (probably a Minecraft render from the replay mod)-->
+  <script>
+    var img;
+    Polymer({
+      is: "equ-projection",
+      
+      properties: {
+        fullscreen: {
+          type: Boolean,
+          value: true
+        },
+        border: {
+          type: String,
+          value: "0"
+        },
+        width: {
+          type: String,
+          value: "600"
+        },
+        height: {
+          type: String,
+          value: "366"
+        },
+        image: {
+          type: String,
+          value: "http://s3.amazonaws.com/everystockphoto/fspid31/17/02/09/6/sunset-moonlight-handheld-1702096-o.jpg"
+        },
+      },
+      listeners: {
+        'canvas.track': 'handleTrack'
+      },
+      ready: function(e) {
+        var me = this;
+
+        img = new Image();
+        img.onload = me.loaded;
+        img.src = this.image;
+
+        var supportsOrientationChange = "onorientationchange" in window,
+        orientationEvent = supportsOrientationChange ? "orientationchange" : "resize";
+
+        window.addEventListener(orientationEvent, function() { //Screen Rotated
+          me.draw();
+          me.loaded();
+        }, false);
+      },
+      draw: function() {
+        if($(window).width() >= 800) {
+          this.width = $(window).width()*.5;
+          this.height = this.width/1.65;
+          if(this.width > 600) {
+            this.width = 600;
+            this.height = this.width/1.65;
+          }
+        } else {
+          this.width = $(window).width()*.89;
+          this.height = this.width/1.65;
+        }
+      },
+      loaded: function() {
+        //alert("Image Width: " + img.width + " | Image Height: " + img.height);
+        var c = document.getElementById("canvas");
+        var ctx = c.getContext("2d");
+        
+        ctx.drawImage(img,0,0);
+        me.draw();
+      },
+      handleTrack: function(e) {
+        switch(e.detail.state) {
+          case 'start':
+            this.message = 'Tracking started!';
+            break;
+          case 'track':
+            this.message = 'Tracking in progress... ' +
+              e.detail.x + ', ' + e.detail.y;
+            break;
+          case 'end':
+            this.message = 'Tracking ended!';
+            break;
+        }
+      }
+    });
+  </script>
+
+</dom-module>
