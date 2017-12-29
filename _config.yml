@@ -25,7 +25,7 @@ defaults:
       developer: SenorContento
       description: This is a blog written by Brandon Gomez to talk about Rover!
       site-url: https://rover.senorcontento.com
-      rss-url: https://rover.senorcontento.com/blog/atom.xml
+      rss-url: 
       branch: gh-pages
       image: /sitedata/images/favicon.png
 
