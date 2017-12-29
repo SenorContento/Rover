@@ -1,0 +1,5 @@
+This is the branch that is used to store the links to 3rd party modules (and modules of my own that was not included in the base program). I am not entirely sure how this branch will be set up, but so far the idea is to use JSON. For example, I can have the file, called for example modules.json.
+
+This file will be able to allow Rover to search for the module by using either the title, author, description, or any other data included in the JSON file. Rover will allow the user to download the modules without having to ever leave the program. It will also make searching for dependencies a lot easier, much like a package manager.
+
+This will allow other people to update their code in their own repositories without having to request for me to accept a push request and given the URL used to check the version number (most likely a file in the repository), Rover will know when to update the module. UUIDs will be used to prevent conflicting modules and allow multiple modules to have the same name.
