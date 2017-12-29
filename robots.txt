@@ -1,0 +1,8 @@
+# Useful URL's
+# https://developers.google.com/webmasters/control-crawl-index/docs/robots_txt
+# http://www.rimmkaufman.com/blog/robots-txt-best-practices-for-seo/03072012/
+
+# User-agent: *
+# Disallow: /sitedata/
+
+SITEMAP: https://rover.senorcontento.com/blog/atom.xml

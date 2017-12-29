@@ -1,0 +1,150 @@
+<!DOCTYPE html>{% assign categories = page.categories | remove: '["blog", "' | remove: '"]' %}
+<html>
+  <head>
+    <link rel="manifest" href="/sitedata/manifest.json">
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta property="fb:admins" content="100007630755367" />
+    {% seo title=false %}
+    <meta name="theme-color" content="green">
+    <meta property="og:image" content="/sitedata/images/favicon.png" />
+    <link type="application/atom+xml" rel="alternate" href="{{page.rss-url}}{{page.site-url}}/blog/atom.xml" title="Señor Contento's Blog" />
+    <link type="application/atom+xml" rel="alternate" href="{{page.rss-url}}{{page.site-url}}/blog/{{ categories }}/atom.xml" title="Señor Contento's Blog - {{ categories }}" />
+
+    <link rel="search" type="application/opensearchdescription+xml" href="/sitedata/opensearch.xml" title="Señor Contento's Blog">
+
+    <meta name="apple-mobile-web-app-title" content="Señor's Blog">
+
+    <!--Icons-->
+    <link rel="apple-touch-icon-precomposed" sizes="1024x1024" href="/sitedata/images/SenorContento-1024x1024.png">
+    <link rel="apple-touch-icon" sizes="1024x1024" href="/sitedata/images/SenorContento-1024x1024.png">
+    <link rel="icon" type="image/png" href="/sitedata/images/SenorContento-1024x1024.png"> <!--For Most Modern Browsers-->
+    <link rel="mask-icon" href="/sitedata/images/SenorContento-Mask.svg" color="#3140FD"><!--For Apple Pinned Tabs-->
+    <link rel="icon" type="image/svg+xml" href="/sitedata/images/SenorContento.svg"><!--New Scalable Icon - Support Still Coming-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <!--jQuery Script-->
+
+    <!--If you use max-width instead of max-device-width, you can test what the mobile formatting looks like by minimizing the window-->
+    <link id="mobile-style" rel="stylesheet" type="text/css" href="/sitedata/stylesheets/mobile-stylesheet.css" media="screen and (max-device-width: 800px)">
+    <link id="pc-style" rel="stylesheet" type="text/css" href="/sitedata/stylesheets/stylesheet.css" media="screen and (min-device-width: 800px)">
+    <link id="pygment-default" rel="stylesheet" type="text/css" href="/sitedata/stylesheets/pygment_trac.css" media="screen">
+
+    <script src="/sitedata/javascripts/mobile-tracking.js"></script>
+    <!--Allows me to detect if the site is being visited by a mobile device - Allows user to override normal settings-->
+
+    <!--<script src='https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML' async></script>-->
+    <!--Script from https://www.mathjax.org which kramdown uses to produce Math equations without needing to pregenerate images-->
+
+    <script src="/sitedata/bower_components/webcomponentsjs/webcomponents-lite.js" async></script>
+    <!--Polyfill Web Components - Had to switch to webcomponents-lite.js from webcomponents.js so Disqus could work-->
+
+    <script src="/sitedata/javascripts/printable.js" async></script>
+    <!--Code which allows switching to Printable CSS-->
+
+    <link rel="import" href="/sitedata/shadowdom.html">
+    <!--Import code for allowing custom html using ShadowDom-->
+
+    <!--<script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+          elements: document.getElementsByTagName("body")
+        });
+        MathJax.Ajax.config.path["Contrib"] = "/sitedata/javascripts";
+        MathJax.Hub.config.extensions.push("[Contrib]/math-tex-element.js");
+    </script>-->
+    <!--This fixes the fact that Custom HTML elements in ShadowDom breaks MathJax.-->
+
+    <script>
+      /**
+       *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+       *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables
+       */
+      
+      var disqus_config = function () {
+        this.page.url = "{{page.site-url}}{{page.url}}";  // Replace PAGE_URL with your page's canonical URL variable
+        this.page.identifier = "{{page.site-url}}{{page.url}}"; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+        this.callbacks.onNewComment = [function(comment) {
+          dataLayer.push({
+            'event': 'comment_submit',
+            'commentID': comment.id,
+            'commentBody': comment.text
+          });
+        }];
+      };
+      
+      (function() {  // DON'T EDIT BELOW THIS LINE
+        var d = document, s = d.createElement('script');
+        
+        s.src = '//senorcontento.disqus.com/embed.js';
+        
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+      })();
+    </script>
+    <!--Script Used to Power Disqus Comments-->
+
+    <script src="/sitedata/javascripts/heatmapping.js" async></script>
+    <!--This will allow me to produce heatmaps of how people use my site-->
+
+    <script src="/sitedata/javascripts/loadSW.js"></script>
+    <!--This will allow me to add PWA ability to my site-->
+
+    <title>{{ page.title }} - Señor Contento</title>
+  </head>
+
+  <body>
+    <noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-5GLB6X" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <script src="/sitedata/javascripts/analytics-tracking.js" async></script>
+    <!--This code will allow me to see how people use my site-->
+ 
+   <noscript><h5><div class="header">You kind of need Javascript in order to use this site, just letting you know if you don't heed my warning, parts of this site will be broken!</div></h5></noscript>
+
+    <header>
+      <div class="container">
+        <h1>{{ page.title }}</h1>
+        <h2>{{ categories | capitalize }} - {{ page.date | date: "%-d %B %Y" }}</h2>
+        <!--"page.date | date_to_string" - No Longer Works - Do NOT USE on Github Pages (It still works on Local Jekyll Though)!!!-->
+        <!--Take a look at https://stackoverflow.com/questions/7395520/how-does-jekyll-date-formatting-work#7910554 and https://jekyllrb.com/docs/templates/ (For Date to String and Date to Long String)-->
+        <!--The old method with Date to String would produce a date like 10 Dec 2016, while the new method "%-d %B %Y" will function like Date to Long String and will produce a date like 10 December 2016. Now, I could emulate Date to String, but I like the long date better and didn't know about how to do the long date until now as of 10 December 2016. If you really want to have the old date format, you would use "%-d %b %Y"-->
+
+        <nav><section id="general">
+          <a href="/" class="btn btn-github">Site Home</a>
+          <a href="/contact" class="btn btn-github">Contact Me</a>
+          <a href="/blog/" class="btn btn-github">Blog</a>
+	  <show-dropdown name="More">
+            <a href="/resume" class="btn btn-github">Resume and Work Schedule</a>
+	    <a href="/developers" class="btn btn-github">View Developers and Organizations</a>
+            <a href="/todo" class="btn btn-github">Features Being Worked On</a>
+            <a href="/bucketlist" class="btn btn-github">My Bucketlist</a>
+            <a href="/privacy" class="btn btn-github">Privacy Policy</a>
+	  </show-dropdown>
+        </section></nav>
+      </div>
+    </header>
+
+    <div id="post" class="container">
+      <div class="post">
+      {{ content }}
+      </div>
+    </div>
+
+    <div id="share" class="container">
+      <h3>Share</h3>
+      <a href="https://www.facebook.com/sharer/sharer.php?u={{page.site-url}}{{page.url}}" target="_blank" class="btn btn-facebook"><span class="icon"></span>Share on Facebook</a>
+      <a href="https://twitter.com/share?text={{ page.title }}&url={{page.site-url}}{{page.url}}" target="_blank" class="btn btn-twitter"><span class="icon"></span>Tweet About This Post</a>
+    </div>
+    
+    <br>
+    <hr id="comment-hr">
+    <br id="comment-br">
+
+    <div id="disqus_thread" class="container"></div>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+    
+    <script id="dsq-count-scr" src="//senorcontento.disqus.com/count.js" async></script>
+
+    <br><br>
+    <footer><a class="inline" id="desktop-site" href="#">Show Desktop Site</a> <a class="inline" id="printable-link" onclick="javascript:printable();return false;" href="#">Printable Version</a> <a class="inline" href="https://app.pith.li/create?url={{page.site-url}}{{page.url}}">Highlight Page</a> <a class="inline" href="{{site.github.repository_url}}/blob/{{page.branch}}/{{page.path}}">View on Github</a> <br id="desktop-site"> <h5 class="inline"><a href="/license" id="copyright-link">&copy; <script>document.write(new Date().getFullYear())</script><noscript>2016</noscript> CubeTech, LLC</a></h5></footer>
+    <!--For Future Reference, the nav tag and footer tag do absolutely nothing unless a reader, like one for the blind, uses it or if I use css to make a format for it-->
+  </body>
+</html>

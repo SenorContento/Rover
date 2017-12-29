@@ -1,0 +1,18 @@
+---
+layout: default
+title: Privacy Policy
+project: Privacy Policy
+description: This shows how I track you and what I do with your data.
+---
+
+Well, since I am adding onto my blog again, I should write a privacy policy. Well, first off, I track you. That's a given. The data I currently collect as of the time of this writing (November 7th, 2016) is a bunch of data from [Google Analytics](https://analytics.google.com/) through the use of [Google Tag Manager](https://tagmanager.google.com/). I collect your ip address using the site [IPify](https://api.ipify.org/) and I push it through Google Tag Manager using the data layer. I collect your comments from Disqus (there are none at the time of this writing). I collect which links you click on (and that includes the Twitter and Facebook Share Buttons). I collect which pages you visit. Also, to help clarify more of what Google Analytics collects, it is everything listed above and whatever else is provided by default in Google Analytics (I am still learning how to use it).
+
+Needless to say, since I am using Google Analytics, Google gets to see your data. Yes, I know that sucks, but I have no better way to track you right now (track you as in seeing who's on my blog and why). Also IPify gets some data as I cannot get your IP address with Javascript alone, I need a service that can get it for me and return it to me. I also did remember that Google Analytics uses cookies to track you, so cookies are being used to track you. I currently only use cookies for if you login to edit this site (which this part is basically for me).
+
+I also want to add I am now making use of Heatmaps. I am currently using the service [Heatmap.me](https://heatmap.me/) (which is currently a startup company as of this writing) and since I am a student at a university I get the $100 a month service for free. For those who do not know what a heatmap is, it is a visual representation of where users click on the website. The more users that click a certain spot, the "hotter" (or brighter) a certain spot gets). It is helpful to learn the best place to position things I want users to click on.
+
+I do plan on making use of the [Do Not Track header](https://en.wikipedia.org/wiki/Do_Not_Track), but since I cannot see if anyone actually visits my site unless they either write a comment or share it in some way (or email me to tell me), then I will still track you even with that header. However, I may end up filtering out any identifying data that could be used to identify you, uniquely. I will most likely do this by using the data layer (which is what I use to get your IP Address) to push whether or not you want to be tracked and then setup filters to take out the IP Address from the data I collect. Github may or may not end up creating an analytics panel for those of us hosted with them. They are still deciding on whether or not to do it (at the time of this writing).
+
+Last, but not least, I do not sell your data in any way. I only have to give it to Google and IPify because I use them to track you. They may sell this data, and most likely even data that I do not collect, but I don't. I should also mention, Disqus gets your data too, and when you share on Facebook, Twitter, or anywhere else, they also get your data. I am not in control of what they do with it.
+
+Also, I actually just remembered one more thing. I cannot guarantee that I will update this privacy policy for every little thing that I do. I mean, it has been over a year before I actually decided to write one, so I am only letting you know that not everything I do will be found in this policy, let alone me notify you about it.

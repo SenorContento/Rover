@@ -1,0 +1,38 @@
+---
+layout: feed
+---
+{% assign app = site.time %} 
+{% assign app = app | append: "++\033jsondelimiter\033++" %}
+{% assign app = app | append: "https://brandons.site/app-json?ddu=https://senorcontento.com/sitedata/images/favicon.png" %}
+{% assign app = app | append: "++\033jsondelimiter\033++" %}
+{% assign app = app | append: "&amp;copy; 2016-2017 CubeTech, LLC" %}
+{% assign app = app | append: "++\033jsondelimiter\033++" %}
+{% assign app = app | append: "Señor Contento" %}
+{% assign app = app | append: "++\033jsondelimiter\033++" %}
+{% assign app = app | append: "app.json@senorcontento.com" %}
+{% assign app = app | append: "++\033jsondelimiter\033++" %}
+
+
+
+{% for post in site.posts %}
+	{% assign categories = post.categories | remove: '["blog", "' | remove: '"]' %}
+	{% assign content = content | append: post.title %}
+	{% assign content = content | append: "++\033jsondelimiter\033++" %}
+	{% assign content = content | append: post.date %}
+	{% assign content = content | append: "++\033jsondelimiter\033++" %}
+	{% assign content = content | append: "https://brandons.site/app-json?ddu=https://senorcontento.com?utm_source=App-JSON&utm_medium=App-JSON&utm_campaign=Blog" %}
+	{% assign content = content | append: post.id %}
+	{% assign content = content | append: "++\033jsondelimiter\033++" %}
+	{% assign content = content | append: post.content | xml_escape %}
+	{% assign content = content | append: "++\033jsondelimiter\033++" %}
+	{% assign content = content | append: categories %}
+	{% assign content = content | append: "++\033jsondelimiter\033++" %}
+{% endfor %}
+
+{% assign app = app | append: content %}
+
+{% assign app = app | split: "++\033jsondelimiter\033++" %}
+
+{{ app | jsonify }}
+
+

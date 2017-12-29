@@ -1,0 +1,40 @@
+---
+layout: default
+title: Señor Contento's Blog
+project: Señor Contento's Blog
+description: This is Señor Contento's blog where he posts about whatever is on his mind.
+---
+<meta name="robots" content="noindex">
+<!--I will be adding a fancy little search engine using a combination of jekyll and javascript when I come up with some escape safe lag free code-->
+
+<p>My Blog has a <a href="/blog/atom.xml">RSS (Atom) Feed</a> which you should subscribe to. If you like Señor's favorite index style, you should go <a href="index.html">here</a>.</p>{% for post in site.posts %}{% assign counter = counter | plus: 1 %}{% endfor %}<!--This is just a compressed version of what's below so I can provide a counter-->
+
+<h2>Blog Posts - Total: {{ counter }}</h2>
+
+<ul class="posts">
+  {% for post in site.posts %}
+    {{ post.date | date_to_string }}
+    <br>
+    <br>
+    <h2><a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a></h2>
+    
+    {{ post.content }}
+    
+      <a href="https://www.facebook.com/sharer/sharer.php?u={{post.site-url}}{{post.url}}" target="_blank" class="btn btn-facebook"><span class="icon"></span>Share on Facebook</a>
+      <a href="https://twitter.com/share?text={{ post.title }}&url={{post.site-url}}{{post.url}}" target="_blank" class="btn btn-twitter"><span class="icon"></span>Tweet About This Post</a>
+    
+    <br>
+    <br>
+    <br>
+  {% endfor %}
+</ul>
+
+<p>This blog is split into {{ site.categories | size | minus: 1 }} categories, so you can click a category to help you find a subject of interest.</p>
+
+{% for category in site.categories %}
+  {% unless forloop.first %}
+    <a href="/blog/{{ category | first }}">{{ category | first | capitalize}}</a>
+  {% endunless %}
+{% endfor %}
+
+<!--This is where you can find the obscure, hard to find jekyll (actually liquid) code at https://docs.shopify.com/themes/liquid-documentation/filters/math-filters-->

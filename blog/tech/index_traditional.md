@@ -1,0 +1,3 @@
+---
+layout: categoryblog_traditional
+---

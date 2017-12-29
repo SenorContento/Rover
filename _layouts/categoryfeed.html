@@ -1,0 +1,37 @@
+---
+
+---
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/css" href="/sitedata/stylesheets/rss.css"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+	<title>Señor Contento's Blog - Category: {{ page.url | remove: '/atom.xml' | remove: '/blog/' | capitalize }}</title>
+	<link href="{{page.rss-url}}{{page.site-url}}/blog/atom.xml" rel="self"/>
+	<link href="{{page.site-url}}/blog"/>
+	<updated>{{ site.time | date_to_xmlschema }}</updated>
+	<id>{{page.site-url}}/blog</id>
+	<rights type="html">&amp;copy; 2015-2017 CubeTech, LLC</rights>
+	<author>
+		<name>Señor Contento</name>
+		<email>atom.xml@senorcontento.com</email>
+	</author>
+	<icon>{{page.rss-url}}{{page.site-url}}/sitedata/images/SenorContento.ico</icon>
+	<logo>{{page.rss-url}}{{page.site-url}}/sitedata/images/SenorContento.svg</logo>
+	<subtitle>Romans 12:2 “Don’t be conformed to this world, but be transformed by the renewing of your mind, so that you may prove what is the good, well-pleasing, and perfect will of God.”</subtitle>
+
+	{% for post in site.posts %}
+	{% assign categories = post.categories | remove: '["blog", "' | remove: '"]' %}
+	{% assign rsscategory = page.url | remove: '/atom.xml' | remove: '/blog/' %}
+	{% if categories == rsscategory %}
+		<entry>
+			<title>{{ post.title }}</title>
+			<link rel="alternate" href="{{page.rss-url}}{{page.site-url}}{{ post.url }}?utm_source=RSS&amp;utm_medium=Reader-Category-{{ categories }}&amp;utm_campaign=Blog"/>
+			<updated>{{ post.date | date_to_xmlschema }}</updated>
+			<id>{{page.site-url}}{{ post.id }}</id>
+			<content type="html">{{ post.content | xml_escape }}</content>
+			<category term="{{ categories }}"/>
+		</entry>
+	{% endif %}
+	{% endfor %}
+
+</feed>
