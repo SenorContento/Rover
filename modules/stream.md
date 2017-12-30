@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Stream Module
-project: Digital Rover
+project: Stream Module
 description: Rover decides to live stream!!!
 ---
 

@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Minecraft Module
-project: Digital Rover
+project: Minecraft Module
 description: Rover plays Minecraft!!!
 ---
 

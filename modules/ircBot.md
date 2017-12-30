@@ -1,7 +1,7 @@
 ---
 layout: default
 title: IRC Module
-project: Digital Rover
+project: IRC Module
 description: Rover throws back to the 90s with IRC!!!
 ---
 

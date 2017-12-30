@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Reddit Module
-project: Digital Rover
+project: Reddit Module
 description: Reddit spends too much time on Reddit!!!
 ---
 

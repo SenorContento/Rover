@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Telegram Module
-project: Digital Rover
+project: Telegram Module
 description: Rover learns how to chat!!!
 ---
 

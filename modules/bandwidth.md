@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Bandwidth (Phone) Module
-project: Digital Rover
+project: Bandwidth (Phone) Module
 description: VoIP in Python for AI
 ---
 
