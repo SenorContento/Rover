@@ -3,7 +3,7 @@ layout: feed
 ---
 {% assign app = site.time %} 
 {% assign app = app | append: "++\033jsondelimiter\033++" %}
-{% assign app = app | append: "https://brandons.site/app-json?ddu=https://senorcontento.com/sitedata/images/favicon.png" %}
+{% assign app = app | append: "https://senorcontento.com/sitedata/images/favicon.png" %}
 {% assign app = app | append: "++\033jsondelimiter\033++" %}
 {% assign app = app | append: "&amp;copy; 2016-2017 CubeTech, LLC" %}
 {% assign app = app | append: "++\033jsondelimiter\033++" %}
@@ -20,7 +20,7 @@ layout: feed
 	{% assign content = content | append: "++\033jsondelimiter\033++" %}
 	{% assign content = content | append: post.date %}
 	{% assign content = content | append: "++\033jsondelimiter\033++" %}
-	{% assign content = content | append: "https://brandons.site/app-json?ddu=https://senorcontento.com?utm_source=App-JSON&utm_medium=App-JSON&utm_campaign=Blog" %}
+	{% assign content = content | append: "https://senorcontento.com?utm_source=App-JSON&utm_medium=App-JSON&utm_campaign=Blog" %}
 	{% assign content = content | append: post.id %}
 	{% assign content = content | append: "++\033jsondelimiter\033++" %}
 	{% assign content = content | append: post.content | xml_escape %}
