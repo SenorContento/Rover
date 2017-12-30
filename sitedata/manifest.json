@@ -1,32 +1,32 @@
 {
-  "short_name": "Señor's Blog",
-  "name": "Señor Contento's Blog",
+  "short_name": "Rover's Site",
+  "name": "Digital Rover's Site",
   "display": "standalone",
   "start_url": "/?utm_source=Homescreen&utm_medium=Device&utm_campaign=PWA",
   "background_color": "green",
   "theme_color": "green",
   "icons": [
     {
-      "src": "/sitedata/images/SenorContento.svg",
+      "src": "/sitedata/images/Rover.svg",
       "type": "image/svg+xml"
     },
     {
-      "src": "/sitedata/images/SenorContento-16x16.png",
+      "src": "/sitedata/images/Rover-16x16.png",
       "type": "image/png",
       "sizes": "16x16"
     },
     {
-      "src": "/sitedata/images/SenorContento-48x48.png",
+      "src": "/sitedata/images/Rover-48x48.png",
       "type": "image/png",
       "sizes": "48x48"
     },
     {
-      "src": "/sitedata/images/SenorContento-144x144.png",
+      "src": "/sitedata/images/Rover-144x144.png",
       "type": "image/png",
       "sizes": "144x144"
     },
     {
-      "src": "/sitedata/images/SenorContento-1024x1024.png",
+      "src": "/sitedata/images/Rover-1024x1024.png",
       "type": "image/png",
       "sizes": "1024x1024"
     }
