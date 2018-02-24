@@ -28,7 +28,7 @@ def execute(command):
     if len(command) < 2:
       None
     else:
-      if(command[1].lower() == "nosupport":)
+      if(command[1].lower() == "nosupport"):
         name = settings.retrieveVariable("admin.name")
         return("Sorry, but %s currently does not support MMS. Please just try normal SMS for now!" % name)
 

@@ -171,7 +171,7 @@ def grabMessage(response, ser): # \r\n+CMTI: "SM",6\r\n
 
   print("Original Response: %s, Stripped Response: %s" % (str(response), sResponse))
 
-  if(sResponse.count(',' == 1): # This should never be false as I handle this in the notification handler loop().
+  if(sResponse.count(',' == 1)): # This should never be false as I handle this in the notification handler loop(...).
     toss, number = sResponse.split(",", 1)
 
   rcv = sendCommand(toBin("AT+CMGR=%s" % number) + writeENTER(), ser) # Asks for message with number given by response
