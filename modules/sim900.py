@@ -55,19 +55,22 @@ def init():
     device = settings.setVariable("sim900.device", "/dev/serial0")
 
   try:
-    baud = settings.setVariable("sim900.baud", settings.readConfig('Sim900', 'baud'))
+    baud = int(settings.setVariable("sim900.baud", settings.readConfig('Sim900', 'baud')))
   except:
     print("You need a baudrate to know the timing of messages!!! Defaulting to 9600!!!")
-    baud = "9600"
+    baud = int(settings.setVariable("sim900.baud", "9600"))
 
   try:
-    timeout = settings.setVariable("sim900.timeout", settings.readConfig('Sim900', 'timeout'))
+    timeout = int(settings.setVariable("sim900.timeout", settings.readConfig('Sim900', 'timeout')))
   except:
     print("You will want a timeout so Rover does not hang when not receiving messages!!! Defaulting to 1 second!!!")
-    timeout = settings.setVariable("sim900.timeout", "1")
+    timeout = int(settings.setVariable("sim900.timeout", "1"))
 
-  baud = 9600 # Set it up to convert from string to int.
-  timeout = 1 # Set it up to convert from string to int.
+    # From Python Docs
+    # ----------------
+    # timeout = None: wait forever / until requested number of bytes are received
+    # timeout = 0: non-blocking mode, return immediately in any case, returning zero or more, up to the requested number of bytes
+    # timeout = x: set timeout to x seconds (float allowed) returns immediately when the requested number of bytes are available, otherwise wait until the timeout expires and return all bytes that were received until then.
 
   ser = serial.Serial(port=device,baudrate=baud,timeout=timeout)
   setUPModem(ser)
@@ -96,8 +99,10 @@ def loop(ser): # This is a blocking call, other modules after this will not load
       response = readResponse(ser)
       print("Response: %s" % response)
       
-      if("CMTI" in str(response)): # Example b'\r\n+CMTI: "SM",6\r\n'
+      if("CMTI" in str(response) and str(response).count(',' == 1)): # Example b'\r\n+CMTI: "SM",6\r\n'
         handle(grabMessage(response, ser), ser)
+      elif("CMTI" in str(response) and str(response).count(',' > 1)):
+        handle(grabMMS(response, ser), ser)
 
   print("End - Loop")
 
@@ -146,9 +151,19 @@ def setUPModem(ser):
   sendCommand(toBin("AT") + writeENTER(), ser) # Check to see if result is OK
   sendCommand(toBin("AT+CMEE=2") + writeENTER(), ser) # Sets error messages to be human readable
   sendCommand(toBin("AT+CMGF=1") + writeENTER(), ser) # Sets text to SMS mode (Not MMS)
+  sendCommand(toBin("AT+CLIP=1") + writeENTER(), ser) # Sets clip to display number calling sim900
 
   #sendCommand(toBin("AT+CMGS=\"+1REDACTED\"") + writeENTER(), ser) # Sets SMS reply Number
   #sendCommand(toBin("Starting Up!!!") + writeCTRLZ(), ser) # Types Message
+
+#################################################################################################
+def grabMMS(response, ser): # \r\n+CMTI: "SM",6\r\n
+  # Can eventually be used to specify media type and/or pass on the raw URL to download the MMS
+
+  # Although it is probably simpler and more logical to handle the MMS in house (in this module)
+  # and not pass it off to a command module
+
+  return("/handlemms %s" % "noSupport") # I currently do not support MMS and want to notify the user that tries to message Rover with MMS.
 
 #################################################################################################
 def grabMessage(response, ser): # \r\n+CMTI: "SM",6\r\n
@@ -156,7 +171,8 @@ def grabMessage(response, ser): # \r\n+CMTI: "SM",6\r\n
 
   print("Original Response: %s, Stripped Response: %s" % (str(response), sResponse))
 
-  toss, number = sResponse.split(",", 1) # Pretty sure there is only one comma and never less
+  if(sResponse.count(',' == 1): # This should never be false as I handle this in the notification handler loop().
+    toss, number = sResponse.split(",", 1)
 
   rcv = sendCommand(toBin("AT+CMGR=%s" % number) + writeENTER(), ser) # Asks for message with number given by response
   
@@ -213,9 +229,6 @@ def handle(message, ser): # b'AT+CMGR=22\r\r\n+CMGR: "REC UNREAD","+1REDACTED","
 
   if(debug):
     print() # Output a newline
-
-#################################################################################################
-
 
 #################################################################################################
 if __name__ == "__main__":
