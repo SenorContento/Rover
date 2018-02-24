@@ -45,7 +45,9 @@ def init():
   except:
     print("You need a token to communicate with Discord!!! Go to https://discordapp.com/developers/applications/me!!!")
 
-  client.run(token) # This is a blocking call! I need to run it last!
+  loop = asyncio.get_event_loop()
+  #asyncio.set_event_loop(loop)
+  loop.run_until_complete(client.run(token)) # client.run is a blocking call!
 
 #################################################################################################
 @client.event

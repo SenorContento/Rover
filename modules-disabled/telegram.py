@@ -114,6 +114,11 @@ def handle(message):
 
     output = modules.allcommands("commands", message['text'])
     if output is not None:
+      try:
+        database.insertValues("telegram", "Reply: %s" % output)
+      except:
+        print("Cannot insert values into (telegram) database!")
+
       bot.sendMessage(chat_id, output)
 
   if debug:

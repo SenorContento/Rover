@@ -74,6 +74,7 @@ def handle(message):
 
     output = modules.allcommands("commands", message)
     if output is not None:
+      None # Will cause errors if not in template when writing module
       # Send Message!!! Stream Chat???
 
   if debug:
