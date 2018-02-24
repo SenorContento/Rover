@@ -99,10 +99,13 @@ def loop(ser): # This is a blocking call, other modules after this will not load
       response = readResponse(ser)
       print("Response: %s" % response)
       
-      if("CMTI" in str(response) and str(response).count(',' == 1)): # Example b'\r\n+CMTI: "SM",6\r\n'
+      if("CMTI" in str(response) and str(response).count(',') == 1): # Example b'\r\n+CMTI: "SM",6\r\n'
         handle(grabMessage(response, ser), ser)
-      elif("CMTI" in str(response) and str(response).count(',' > 1)):
-        handle(grabMMS(response, ser), ser)
+      elif("CMTI" in str(response) and str(response).count(',') > 1):
+        print("MMS Command (Never Called; Comes in Pairs): \"%s\"" % grabMMS(response, ser))
+        # Turns out the reply number is accessible from a different place for MMS and not in the normal place
+        # So, I am only printing the response to screen and not replying back to sender for now.
+        # At least if I could avoid crashing the Sim900 module for Rover, that would be a plus for now.
 
   print("End - Loop")
 
@@ -157,13 +160,13 @@ def setUPModem(ser):
   #sendCommand(toBin("Starting Up!!!") + writeCTRLZ(), ser) # Types Message
 
 #################################################################################################
-def grabMMS(response, ser): # \r\n+CMTI: "SM",6\r\n
+def grabMMS(response, ser): # \r\n+CMTI: "SM",11,"MMS PUSH",2,1\r\n\r\n+CMTI: "SM",7,"MMS PUSH"\r\n
   # Can eventually be used to specify media type and/or pass on the raw URL to download the MMS
 
   # Although it is probably simpler and more logical to handle the MMS in house (in this module)
   # and not pass it off to a command module
 
-  return("/handlemms %s" % "noSupport") # I currently do not support MMS and want to notify the user that tries to message Rover with MMS.
+  return(toBin("/handlemms %s" % "noSupport")) # I currently do not support MMS and want to notify the user that tries to message Rover with MMS.
 
 #################################################################################################
 def grabMessage(response, ser): # \r\n+CMTI: "SM",6\r\n
@@ -171,8 +174,7 @@ def grabMessage(response, ser): # \r\n+CMTI: "SM",6\r\n
 
   print("Original Response: %s, Stripped Response: %s" % (str(response), sResponse))
 
-  if(sResponse.count(',' == 1)): # This should never be false as I handle this in the notification handler loop(...).
-    toss, number = sResponse.split(",", 1)
+  toss, number = sResponse.split(",", 1) # Should not be more than or less than one since the notification function, loop(...), will take care of it.
 
   rcv = sendCommand(toBin("AT+CMGR=%s" % number) + writeENTER(), ser) # Asks for message with number given by response
   

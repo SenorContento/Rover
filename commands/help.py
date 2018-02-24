@@ -1,6 +1,6 @@
 __author__ = 'SenorContento' #Me: Brandon Gomez
-__module__ = 'mms'
-__purpose__ = 'handle MMS messages from Sim900'
+__module__ = 'help'
+__purpose__ = 'suggest commands and other useful info to user'
 
 #Imports
 #################################################################################################
@@ -11,10 +11,7 @@ except ImportError:
 
 #################################################################################################
 def init():
-  try:
-    NAME = settings.setVariable("admin.name", settings.readConfig('Admin', 'name'))
-  except:
-    NAME = settings.setVariable("admin.name", "Rover")
+  None
 
 #################################################################################################
 def execute(command):
@@ -23,14 +20,11 @@ def execute(command):
   command = command.split(" ") # This allows me to split the user's message into an array!
   # So, design choice, do I split this before hand, or make every module do it? I do have performance I have to keep up!
 
-  # "/handlemms %s" % "noSupport"
-  if command[0][1:].lower() == "handlemms":
-    if len(command) < 2:
-      None
-    else:
-      if(command[1].lower() == "nosupport"):
-        name = settings.retrieveVariable("admin.name")
-        return("Sorry, but %s currently does not support MMS. Please just try normal SMS for now! If you need help, just type /help" % name)
+  if command[0][1:].lower() == "help":
+    if debug:
+      print("No Help Commands Available Yet!!!")
+
+    return("Command Registration does not currently exist, so please visit https://rover.senorcontento.com/ for help!!!")
 
 #################################################################################################
 if __name__ == "__main__":
