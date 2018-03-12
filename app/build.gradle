@@ -7,7 +7,7 @@ apply plugin: 'kotlin-android-extensions'
 android {
     compileSdkVersion 26
     defaultConfig {
-        applicationId "site.cubetech.rover"
+        applicationId "site.cubetechllc.rover"
         minSdkVersion 23
         targetSdkVersion 26
         versionCode 1
